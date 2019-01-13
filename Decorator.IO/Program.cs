@@ -1,6 +1,4 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -74,12 +72,19 @@ namespace Decorator.IO
 
 			WriteLine("Parsing args", ConsoleColor.Cyan);
 
+			var genSelected = GetGen(genType, @namespace).GetType().ToString();
+
 			Write("Using Generator ", ConsoleColor.DarkCyan);
-			WriteLine(GetGen(genType, @namespace).GetType().ToString(), ConsoleColor.Red);
+			WriteLine(genSelected, ConsoleColor.Red);
+
+			var data = inItems.Select(x => File.ReadAllBytes(x)).ToArray();
+			WriteLine("Reading raw data", ConsoleColor.DarkCyan);
 
 			var inFiles =
-				inItems.Select(x => JsonConvert.DeserializeObject<Message[]>(File.ReadAllText(x)))
+				data.Select(x => Utf8Json.JsonSerializer.Deserialize<Message[]>(x))
 				.ToArray();
+
+			WriteLine("Deserializing to json", ConsoleColor.DarkCyan);
 
 			var allMsgs = inFiles
 				.SelectMany(x => x)
@@ -90,7 +95,7 @@ namespace Decorator.IO
 				.Select(x => { x.Elements = x.InheritBase(allMsgs); return x; })
 				.ToArray();
 
-			WriteLine("Reading in JSON files", ConsoleColor.DarkCyan);
+			WriteLine("Finish JSON-related computation", ConsoleColor.DarkCyan);
 
 			if (outItems.Count == 1)
 			{

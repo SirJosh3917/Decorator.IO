@@ -1,18 +1,17 @@
-﻿using Newtonsoft.Json;
-
-using System;
+﻿using System;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Decorator.IO
 {
 	public class Message
 	{
-		[JsonProperty("name")] public string Name { get; set; }
-		[JsonProperty("bases")] public string[] BaseMessages { get; set; }
-		[JsonProperty("elements")] public Element[] Elements { get; set; }
+		[DataMember(Name = "name")] public string Name { get; set; }
+		[DataMember(Name = "bases")] public string[] BaseMessages { get; set; }
+		[DataMember(Name = "elements")] public Element[] Elements { get; set; }
 
 		private string _msgName = null;
-		[JsonProperty("msgName")] public string MessageName { get => _msgName ?? Name; set => _msgName = value; }
+		[DataMember(Name = "msgName")] public string MessageName { get => _msgName ?? Name; set => _msgName = value; }
 
 		public Message Clone()
 			=> new Message
@@ -46,9 +45,9 @@ namespace Decorator.IO
 
 	public class Element
 	{
-		[JsonProperty("type")] public string Type { get; set; }
-		[JsonProperty("name")] public string Name { get; set; }
-		[JsonProperty("position")] public int Position { get; set; }
-		[JsonProperty("attributes")] public string[] Attributes { get; set; }
+		[DataMember(Name = "type")] public string Type { get; set; }
+		[DataMember(Name = "name")] public string Name { get; set; }
+		[DataMember(Name = "position")] public int Position { get; set; }
+		[DataMember(Name = "attributes")] public string[] Attributes { get; set; }
 	}
 }

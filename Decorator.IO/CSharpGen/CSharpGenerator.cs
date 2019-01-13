@@ -51,8 +51,7 @@ namespace Decorator.IO.CSharpGen
 			{
 				var property = c.WithProperty()
 					.SetName(element.Name)
-					.SetType(_ti.Interpet(element.Type).Pascalize())
-					.SetArray(element.Type.EndsWith("[]"));
+					.SetType(_ti.Interpet(element.Type));
 
 				var attributes =
 					element.Attributes
