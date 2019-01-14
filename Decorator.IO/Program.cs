@@ -5,15 +5,6 @@ using System.Linq;
 
 namespace Decorator.IO
 {
-	public enum ReadState
-	{
-		None,
-		Input,
-		Output,
-		Namespace,
-		Generator
-	}
-
 	internal class Program
 	{
 		private static void Main(string[] args)
@@ -24,60 +15,16 @@ namespace Decorator.IO
 			args = "--gen cs -i messages.json -o out.cs".Split(' ');
 #endif
 
-			var inItems = new List<string>();
-			var outItems = new List<string>();
-
-			var @namespace = "Decorator.IO";
-			string genType = "";
-
-			var rs = ReadState.None;
-
-			foreach (var i in args)
-			{
-				if (i == "-i")
-				{
-					rs = ReadState.Input;
-					continue;
-				}
-
-				if (i == "-o")
-				{
-					rs = ReadState.Output;
-					continue;
-				}
-
-				if (i == "--ns")
-				{
-					rs = ReadState.Namespace;
-					continue;
-				}
-
-				if (i == "--gen")
-				{
-					rs = ReadState.Generator;
-					continue;
-				}
-
-				switch (rs)
-				{
-					case ReadState.None: throw new ArgumentException($"Please specify -i <the files> and -o <the files>");
-					case ReadState.Namespace: @namespace = i; break;
-					case ReadState.Generator: genType = i; break;
-					case ReadState.Input: inItems.Add(i); break;
-					case ReadState.Output: outItems.Add(i); break;
-
-					default: throw new ArgumentException("Unsupported operation");
-				}
-			}
+			var aargs = Terminal.ArgParser.Parse(args);
 
 			WriteLine("Parsing args", ConsoleColor.Cyan);
 
-			var genSelected = GetGen(genType, @namespace).GetType().ToString();
+			var genSelected = GetGen(aargs.GeneratorType, aargs.Namespace).GetType().ToString();
 
 			Write("Using Generator ", ConsoleColor.DarkCyan);
 			WriteLine(genSelected, ConsoleColor.Red);
 
-			var data = inItems.Select(x => File.ReadAllBytes(x)).ToArray();
+			var data = aargs.InFilesAndOutFile.Select(x => x.Key).SelectMany(x => x).Select(x => File.ReadAllBytes(x)).ToArray();
 			WriteLine("Reading raw data", ConsoleColor.DarkCyan);
 
 			var inFiles =
@@ -97,7 +44,10 @@ namespace Decorator.IO
 
 			WriteLine("Finish JSON-related computation", ConsoleColor.DarkCyan);
 
-			if (outItems.Count == 1)
+			var outItems = aargs.InFilesAndOutFile.Select(x => x.Value).Select(x => (IEnumerable<string>)new string[1] { x }).Aggregate((a, b) => a.Concat(b)).ToArray();
+			var genType = aargs.GeneratorType;
+			var @namespace = aargs.Namespace;
+			if (outItems.Length == 1)
 			{
 				Gen(allMsgs, outItems[0], GetGen(genType, @namespace));
 			}
