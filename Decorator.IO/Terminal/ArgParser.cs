@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using InOutKVP = System.Collections.Generic.KeyValuePair<System.Collections.Generic.IEnumerable<string>, string>;
 
-namespace Decorator.IO.Terminal
+namespace Decorator.IO.T
 {
 	public class ArgParseResults
 	{

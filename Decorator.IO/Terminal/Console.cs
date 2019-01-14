@@ -2,9 +2,9 @@
 using System.Diagnostics;
 using SConsole = System.Console;
 
-namespace Decorator.IO.Terminal
+namespace Decorator.IO.T
 {
-	public static class Console
+	public static class Terminal
 	{
 		public static void WriteLine(string text, ConsoleColor foregroundColor) => InForeground(() => SConsole.WriteLine(text), foregroundColor);
 		public static void Write(string text, ConsoleColor foregroundColor) => InForeground(() => SConsole.Write(text), foregroundColor);
@@ -25,21 +25,24 @@ namespace Decorator.IO.Terminal
 		public TimedAction(string desc, ConsoleColor consoleColor) : base(null, null)
 		{
 			_stopwatch = new Stopwatch();
+			Color = consoleColor;
 
 			_start = () =>
 			{
-				Console.Write(desc, consoleColor);
+				Terminal.Write(desc, consoleColor);
 				_stopwatch.Start();
 			};
 
 			_end = () =>
 			{
 				_stopwatch.Stop();
-				Console.WriteLine($" {_stopwatch.ElapsedMilliseconds}ms, {_stopwatch.ElapsedTicks} ticks.", ConsoleColor.Magenta);
+				Terminal.WriteLine($" {_stopwatch.ElapsedMilliseconds}ms, {_stopwatch.ElapsedTicks} ticks.", ConsoleColor.Magenta);
 			};
 
 			Start();
 		}
+
+		public ConsoleColor Color { get; }
 	}
 
 	public class TempForegroundColor : TempAction
@@ -54,6 +57,8 @@ namespace Decorator.IO.Terminal
 
 			_start = () => SConsole.ForegroundColor = consoleColor;
 			_end = () => SConsole.ForegroundColor = _beforeChange;
+
+			Start();
 		}
 	}
 

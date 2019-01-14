@@ -2,8 +2,6 @@
 using Decorator.IO.CSharpGen.Interpreters;
 using Decorator.IO.CSharpGen.Writer;
 
-using Humanizer;
-
 using System.Collections.Generic;
 using System.Linq;
 

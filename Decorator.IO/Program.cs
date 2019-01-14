@@ -1,7 +1,11 @@
-﻿using System;
+﻿using Decorator.IO.T;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using InOutKVP = System.Collections.Generic.KeyValuePair<System.Collections.Generic.IEnumerable<string>, string>;
+using SConsole = System.Console;
+using ConsoleColor = System.ConsoleColor;
+using System;
 
 namespace Decorator.IO
 {
@@ -9,69 +13,106 @@ namespace Decorator.IO
 	{
 		private static void Main(string[] args)
 		{
-			lastWL = DateTime.Now;
-			WriteLine($"Decorator.IO, at your service!", ConsoleColor.White);
+			using (var ta = new TimedAction("Decorator.IO, at your service!", ConsoleColor.White))
+			{
+			}
 #if DEBUG
 			args = "--gen cs -i messages.json -o out.cs".Split(' ');
 #endif
+			ArgParseResults aargs;
 
-			var aargs = Terminal.ArgParser.Parse(args);
+			aargs = ParseArgs(args);
 
-			WriteLine("Parsing args", ConsoleColor.Cyan);
+			DetermineGenerator(aargs, out var generator, out var genName);
 
-			var genSelected = GetGen(aargs.GeneratorType, aargs.Namespace).GetType().ToString();
+			var readingData = ReadData(aargs);
 
-			Write("Using Generator ", ConsoleColor.DarkCyan);
-			WriteLine(genSelected, ConsoleColor.Red);
+			var deserializedData = DeserializeData(readingData);
 
-			var data = aargs.InFilesAndOutFile.Select(x => x.Key).SelectMany(x => x).Select(x => File.ReadAllBytes(x)).ToArray();
-			WriteLine("Reading raw data", ConsoleColor.DarkCyan);
+			GenerateFiles(generator, deserializedData);
 
-			var inFiles =
-				data.Select(x => Utf8Json.JsonSerializer.Deserialize<Message[]>(x))
-				.ToArray();
-
-			WriteLine("Deserializing to json", ConsoleColor.DarkCyan);
-
-			var allMsgs = inFiles
-				.SelectMany(x => x)
-				.ToArray();
-
-			allMsgs = allMsgs
-				.Select(x => x.Clone())
-				.Select(x => { x.Elements = x.InheritBase(allMsgs); return x; })
-				.ToArray();
-
-			WriteLine("Finish JSON-related computation", ConsoleColor.DarkCyan);
-
-			var outItems = aargs.InFilesAndOutFile.Select(x => x.Value).Select(x => (IEnumerable<string>)new string[1] { x }).Aggregate((a, b) => a.Concat(b)).ToArray();
-			var genType = aargs.GeneratorType;
-			var @namespace = aargs.Namespace;
-			if (outItems.Length == 1)
-			{
-				Gen(allMsgs, outItems[0], GetGen(genType, @namespace));
-			}
-			else
-			{
-				for (int i = 0; i < inFiles.Length; i++)
-				{
-					Gen(inFiles[i], outItems[i], GetGen(genType, @namespace));
-				}
-			}
-
-			Console.ReadLine();
+			SConsole.ReadLine();
 		}
 
-		public static void Gen(Message[] messages, string outFile, ICodeGenerator codeGen)
+		private static ArgParseResults ParseArgs(string[] args)
 		{
-			Write("Outting to ", ConsoleColor.DarkCyan);
-			WriteLine(outFile, ConsoleColor.Red);
+			ArgParseResults aargs;
+			using (var ta = new TimedAction("Parsing arguments", ConsoleColor.Cyan))
+			{
+				aargs = ArgParser.Parse(args);
+			}
 
-			codeGen.WorkOn(messages);
-			WriteLine("Working on generation", ConsoleColor.DarkMagenta);
+			return aargs;
+		}
 
-			File.WriteAllText(outFile, codeGen.Generate());
-			WriteLine("Writing", ConsoleColor.Green);
+		private static void DetermineGenerator(ArgParseResults aargs, out Func<ICodeGenerator> generator, out string genName)
+		{
+			using (var ta = new TimedAction("Determining generator: ", ConsoleColor.DarkCyan))
+			{
+				generator = () => GetGen(aargs.GeneratorType, aargs.Namespace);
+				genName = (generator()).GetType().ToString();
+
+				Terminal.Write($"{genName}", ta.Color);
+			}
+		}
+
+		private static KeyValuePair<IEnumerable<byte[]>, string>[] ReadData(ArgParseResults aargs)
+		{
+			KeyValuePair<IEnumerable<byte[]>, string>[] readingData;
+			using (var ta = new TimedAction("Reading in data", ConsoleColor.DarkCyan))
+			{
+				readingData =
+					aargs.InFilesAndOutFile
+					.Select(x => new KeyValuePair<IEnumerable<byte[]>, string>
+						(
+							x.Key.Select(xy => File.ReadAllBytes(xy)),
+							x.Value
+						))
+					.ToArray();
+			}
+
+			return readingData;
+		}
+
+		private static KeyValuePair<Message[], string>[] DeserializeData(KeyValuePair<IEnumerable<byte[]>, string>[] readingData)
+		{
+			KeyValuePair<Message[], string>[] deserializedData;
+			using (var ta = new TimedAction("Deserializing data", ConsoleColor.DarkCyan))
+			{
+				deserializedData =
+					readingData
+					.Select(x => new KeyValuePair<Message[], string>
+					(
+						x.Key.Select(y => Utf8Json.JsonSerializer.Deserialize<Message[]>(y)).SelectMany(y => y).ToArray(),
+						x.Value
+					))
+					.ToArray();
+			}
+
+			return deserializedData;
+		}
+
+		private static void GenerateFiles(Func<ICodeGenerator> generator, KeyValuePair<Message[], string>[] deserializedData)
+		{
+			foreach (var element in deserializedData)
+			{
+				Generate(element.Key, element.Value, generator());
+			}
+		}
+		private static void Generate(Message[] messages, string file, ICodeGenerator codeGen)
+		{
+			string result;
+
+			using (var ta = new TimedAction("Generating", ConsoleColor.DarkCyan))
+			{
+				codeGen.WorkOn(messages);
+				result = codeGen.Generate();
+			}
+
+			using (var ta = new TimedAction("Writing to file", ConsoleColor.DarkMagenta))
+			{
+				File.WriteAllText(file, result);
+			}
 		}
 
 		private static ICodeGenerator GetGen(string inGen, string ns)
@@ -85,30 +126,6 @@ namespace Decorator.IO
 
 				default: throw new ArgumentException($"Unknown generator {inGen}");
 			}
-		}
-
-		private static DateTime lastWL;
-
-		private static void Write(string text, ConsoleColor color)
-		{
-			var curCol = Console.ForegroundColor;
-			Console.ForegroundColor = color;
-			Console.Write(text);
-			Console.ForegroundColor = curCol;
-		}
-
-		private static void WriteLine(string text, ConsoleColor color)
-		{
-			var curCol = Console.ForegroundColor;
-			Console.ForegroundColor = color;
-			Console.Write($"{text} ");
-
-			Console.ForegroundColor = ConsoleColor.Magenta;
-			var curTime = DateTime.Now;
-			Console.WriteLine($"{(curTime - lastWL).TotalMilliseconds}ms");
-			lastWL = curTime;
-
-			Console.ForegroundColor = curCol;
 		}
 	}
 }
