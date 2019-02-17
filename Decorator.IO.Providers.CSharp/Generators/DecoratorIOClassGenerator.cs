@@ -1,10 +1,10 @@
 ﻿using Decorator.IO.Core.Tokens;
 using Decorator.IO.Providers.Core;
 using Decorator.IO.Providers.CSharp.Processes;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
@@ -12,10 +12,7 @@ namespace Decorator.IO.Providers.CSharp.Generators
 	{
 		private readonly Model[] _models;
 
-		public DecoratorIOClassGenerator(Model[] models)
-		{
-			_models = models;
-		}
+		public DecoratorIOClassGenerator(Model[] models) => _models = models;
 
 		public IEnumerable<GeneratorItem> Generate()
 		{
@@ -36,7 +33,8 @@ namespace Decorator.IO.Providers.CSharp.Generators
 
 		public static IEnumerable<GeneratorItem> IModelInterface()
 		{
-			yield return "public interface IModel<T> where T : IModel<T>";
+			yield return "public interface IModel<T>";
+			yield return "\twhere T : IModel<T>";
 			yield return "{";
 			yield return "\tobject[] Serialize();";
 			yield return "}";
