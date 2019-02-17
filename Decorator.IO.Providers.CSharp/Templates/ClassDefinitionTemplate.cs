@@ -19,21 +19,16 @@ namespace Decorator.IO.Providers.CSharp.Templates
 
 			strb.Append(input.ClassName);
 
-			if (input.Inherits.Any())
+			strb.Append(" : IModel<");
+			strb.Append(input.ClassName);
+			strb.Append(">");
+
+			foreach(var inherit in input.Inherits)
 			{
-				strb.Append(" : ");
-
-				var enumerator = input.Inherits.GetEnumerator();
-
-				enumerator.MoveNext();
-				strb.Append(enumerator.Current);
-
-				while (enumerator.MoveNext())
-				{
-					strb.Append(", ");
-					strb.Append(enumerator.Current);
-				}
+				strb.Append(", ");
+				strb.Append(inherit);
 			}
+
 
 			yield return strb.ToString();
 		}

@@ -7,7 +7,7 @@ namespace Decorator.IO.Providers.CSharp.Templates
 {
 	public class PropertyDefinitionArgs
 	{
-		public IType IType { get; set; }
+		public IType Type { get; set; }
 		public string Identifier { get; set; }
 	}
 
@@ -15,7 +15,7 @@ namespace Decorator.IO.Providers.CSharp.Templates
 	{
 		public IEnumerable<string> Generate(PropertyDefinitionArgs input)
 		{
-			yield return $"public {input.IType.Identifier} {input.Identifier} {{ get; set; }}";
+			yield return $"public {input.Type.Identifier} {input.Identifier} {{ get; set; }}";
 		}
 	}
 }
