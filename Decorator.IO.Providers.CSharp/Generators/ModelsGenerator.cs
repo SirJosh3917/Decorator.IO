@@ -14,11 +14,16 @@ namespace Decorator.IO.Providers.CSharp.Generators
 
 		public IEnumerable<GeneratorItem> Generate()
 		{
-			return _models
-				.SelectMany
+			return new DecoratorIOClassGenerator(_models)
+				.Generate()
+				.Concat
 				(
-					model => new ModelClassGenerator(model)
-						.Generate()
+					_models
+					.SelectMany
+					(
+						model => new ModelClassGenerator(model)
+							.Generate()
+					)
 				);
 		}
 	}

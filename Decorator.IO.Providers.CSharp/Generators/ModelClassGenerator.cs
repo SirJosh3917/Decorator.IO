@@ -4,6 +4,7 @@ using Decorator.IO.Providers.CSharp.Processes;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
@@ -36,7 +37,8 @@ namespace Decorator.IO.Providers.CSharp.Generators
 				)
 				.Process
 				(
-					GenerateClassProperties(_model)
+					GenerateClassMethods(_model)
+					.Concat(GenerateClassProperties(_model))
 				)
 			)
 			.Select(x => (GeneratorItem)x);
@@ -64,6 +66,25 @@ namespace Decorator.IO.Providers.CSharp.Generators
 			}
 
 			return properties;
+		}
+
+		public static IEnumerable<GeneratorItem> GenerateClassMethods(Model model)
+		{
+			var Deserialize = new StringBuilder();
+			Deserialize.Append("public static ");
+			Deserialize.Append(model.Identifier);
+			Deserialize.Append(" Deserialize(object[] data) => DecoratorIO.Deserialize");
+			Deserialize.Append(model.Identifier);
+			Deserialize.Append("(data);");
+
+			yield return Deserialize;
+
+			var serialize = new StringBuilder();
+			serialize.Append("public object[] Serialize() => DecoratorIO.Serialize");
+			serialize.Append(model.Identifier);
+			serialize.Append("(this);");
+
+			yield return serialize;
 		}
 	}
 }

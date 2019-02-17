@@ -32,37 +32,37 @@ namespace Example
 		{
 			object[] Serialize();
 		}
-		public static A Deserialize_A(object[] data)
+		public static A DeserializeA(object[] data)
 		{
 			var instance = new A();
 			// TODO: implement
 			return instance;
 		}
-		public static object[] Serialize_A(A instance)
+		public static object[] SerializeA(A instance)
 		{
 			var obj = new object[0];
 			// TODO: implement
 			return obj;
 		}
-		public static B Deserialize_B(object[] data)
+		public static B DeserializeB(object[] data)
 		{
 			var instance = new B();
 			// TODO: implement
 			return instance;
 		}
-		public static object[] Serialize_B(B instance)
+		public static object[] SerializeB(B instance)
 		{
 			var obj = new object[0];
 			// TODO: implement
 			return obj;
 		}
-		public static C Deserialize_C(object[] data)
+		public static C DeserializeC(object[] data)
 		{
 			var instance = new C();
 			// TODO: implement
 			return instance;
 		}
-		public static object[] Serialize_C(C instance)
+		public static object[] SerializeC(C instance)
 		{
 			var obj = new object[0];
 			// TODO: implement
@@ -86,24 +86,24 @@ namespace Example
 	}
 	public class A : IA
 	{
-		public static A Deserialize(object[] data) => DecoratorIO.Deserialize_A(data);
-		public object[] Serialize() => DecoratorIO.Serialize_A(this);
+		public static A Deserialize(object[] data) => DecoratorIO.DeserializeA(data);
+		public object[] Serialize() => DecoratorIO.SerializeA(this);
 
 		public int IntegerField { get; set; }
 		public string StringField { get; set; }
 	}
 	public class B : IB
 	{
-		public static B Deserialize(object[] data) => DecoratorIO.Deserialize_B(data);
-		public object[] Serialize() => DecoratorIO.Serialize_B(this);
+		public static B Deserialize(object[] data) => DecoratorIO.DeserializeB(data);
+		public object[] Serialize() => DecoratorIO.SerializeB(this);
 
 		public int AnotherIntegerField { get; set; }
 		public string AnotherStringField { get; set; }
 	}
 	public class C : IC
 	{
-		public static C Deserialize(object[] data) => DecoratorIO.Deserialize_C(data);
-		public object[] Serialize() => DecoratorIO.Serialize_C(this);
+		public static C Deserialize(object[] data) => DecoratorIO.DeserializeC(data);
+		public object[] Serialize() => DecoratorIO.SerializeC(this);
 
 		public int YetAnotherIntegerField { get; set; }
 		public string YetAnotherStringField { get; set; }

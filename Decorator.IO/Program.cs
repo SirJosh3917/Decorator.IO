@@ -44,6 +44,8 @@ namespace Decorator.IO
 					Console.Write(Convert.ToChar(b));
 				}
 
+				File.WriteAllBytes("input.cs", generated);
+
 				System.Console.ReadLine();
 			}
 		}
