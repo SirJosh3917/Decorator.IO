@@ -6,12 +6,12 @@ using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
-	public class FieldToPropertyGenerator : IGenerator
+	public class PropertyGenerator : IGenerator
 	{
 		private readonly Field _field;
 		private readonly bool _addPublic;
 
-		public FieldToPropertyGenerator(Field field, bool addPublic)
+		public PropertyGenerator(Field field, bool addPublic)
 		{
 			_field = field;
 			_addPublic = addPublic;
@@ -19,18 +19,22 @@ namespace Decorator.IO.Providers.CSharp.Generators
 
 		public IEnumerable<GeneratorItem> Generate()
 		{
-			var modifiers = new StringBuilder();
+			var property = new StringBuilder();
 
 			if (_addPublic)
 			{
-				modifiers.Append("public ");
+				property.Append("public ");
 			}
 
-			modifiers.Append(_field.Type.Identifier);
+			property.Append(_field.Type.Identifier);
 
-			modifiers.Append(" { get; set; }");
+			property.Append(" ");
 
-			yield return modifiers.ToString();
+			property.Append(_field.Identifier);
+
+			property.Append(" { get; set; }");
+
+			yield return property.ToString();
 		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using Decorator.IO.Core.Tokens;
 using Decorator.IO.Providers.Core;
+using Decorator.IO.Providers.CSharp.Generators;
 using Decorator.IO.Providers.CSharp.Processes;
 
 using Humanizer;
@@ -18,21 +19,9 @@ namespace Decorator.IO.Providers.CSharp
 		{
 			var nsProces = new NamespaceProcess(dioNamespace.Name);
 
-			var classProcesses =
-				dioNamespace
-				.Models
-				.SelectMany(model => new ClassProcess[]
-				{
-					new ClassProcess
-					(
-						name: $"I{model.Identifier}",
-						modifiers: "public interface",
-						inherit: model.Parents.Select(x => $"I{x.Model.Identifier}")
-						.Prepend($"IModel<I{model.Identifier}>").ToArray()
-					)
-				});
+			var modelGen = new ModelsGenerator(dioNamespace.Models);
 
-			return nsProces.Process(classProcesses.SelectMany(x => x.Process(new StringBuilder[] { })));
+			return nsProces.Process(modelGen);
 		}
 	}
 }

@@ -69,22 +69,22 @@ namespace Example
 			return obj;
 		}
 	}
-	public interface IA : DecoratorIO.IModel<A>
+	public interface IA : DecoratorIO.IModel<IA>
 	{
 		int IntegerField { get; set; }
 		string StringField { get; set; }
 	}
-	public interface IB : DecoratorIO.IModel<B>
+	public interface IB : DecoratorIO.IModel<IB>
 	{
 		int AnotherIntegerField { get; set; }
 		string AnotherStringField { get; set; }
 	}
-	public interface IC : DecoratorIO.IModel<C>, IA, IB
+	public interface IC : DecoratorIO.IModel<IC>, IA, IB
 	{
 		int YetAnotherIntegerField { get; set; }
 		string YetAnotherStringField { get; set; }
 	}
-	public class A : DecoratorIO.IModel<A>
+	public class A : IA
 	{
 		public static A Deserialize(object[] data) => DecoratorIO.Deserialize_A(data);
 		public object[] Serialize() => DecoratorIO.Serialize_A(this);
@@ -92,7 +92,7 @@ namespace Example
 		public int IntegerField { get; set; }
 		public string StringField { get; set; }
 	}
-	public class B : DecoratorIO.IModel<B>
+	public class B : IB
 	{
 		public static B Deserialize(object[] data) => DecoratorIO.Deserialize_B(data);
 		public object[] Serialize() => DecoratorIO.Serialize_B(this);
@@ -100,7 +100,7 @@ namespace Example
 		public int AnotherIntegerField { get; set; }
 		public string AnotherStringField { get; set; }
 	}
-	public class C : DecoratorIO.IModel<C>
+	public class C : IC
 	{
 		public static C Deserialize(object[] data) => DecoratorIO.Deserialize_C(data);
 		public object[] Serialize() => DecoratorIO.Serialize_C(this);
