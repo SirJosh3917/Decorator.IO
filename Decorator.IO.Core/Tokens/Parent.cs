@@ -4,6 +4,6 @@
 	{
 		public Parent(Model model) => Model = model;
 
-		public Model Model { get; }
+		public Model Model { get; set; }
 	}
 }

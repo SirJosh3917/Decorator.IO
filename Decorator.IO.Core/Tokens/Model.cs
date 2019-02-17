@@ -12,8 +12,8 @@ namespace Decorator.IO.Core.Tokens
 			Fields = fields.ToArray();
 		}
 
-		public string Identifier { get; }
-		public Parent[] Parents { get; }
-		public Field[] Fields { get; }
+		public string Identifier { get; set; }
+		public Parent[] Parents { get; set; }
+		public Field[] Fields { get; set; }
 	}
 }

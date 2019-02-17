@@ -4,6 +4,8 @@ namespace Decorator.IO.Core
 {
 	public interface ILanguageProvider
 	{
+		string ModifyStringCasing(string str);
+
 		byte[] Generate(Namespace ns);
 	}
 }

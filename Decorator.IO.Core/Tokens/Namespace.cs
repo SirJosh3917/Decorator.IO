@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Decorator.IO.Core.Tokens
+﻿namespace Decorator.IO.Core.Tokens
 {
-	public class Namespace
+	public class Namespace : IToken
 	{
 		public Namespace(string name, Model[] models)
 		{
@@ -12,7 +8,7 @@ namespace Decorator.IO.Core.Tokens
 			Models = models;
 		}
 
-		public string Name { get; }
-		public Model[] Models { get; }
+		public string Name { get; set; }
+		public Model[] Models { get; set; }
 	}
 }

@@ -4,6 +4,8 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
 
     <IsPackable>false</IsPackable>
+
+    <LangVersion>7.1</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
@@ -15,6 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Decorator.IO.Parser\Decorator.IO.Parser.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="TokenParserTests\" />
   </ItemGroup>
 
 </Project>

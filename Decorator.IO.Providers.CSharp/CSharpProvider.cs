@@ -1,16 +1,18 @@
-﻿using System;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Core.Tokens;
+using Decorator.IO.Providers.CSharp.Templates;
+using Humanizer;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Decorator.IO.Core;
-using Decorator.IO.Core.Tokens;
-using Humanizer;
+
 
 namespace Decorator.IO.Providers.CSharp
 {
 	public class CSharpProvider : ILanguageProvider
 	{
+		public string ModifyStringCasing(string str) => str.Pascalize();
+
 		public byte[] Generate(Namespace ns)
 		{
 			using (var ms = new MemoryStream())
@@ -31,7 +33,7 @@ namespace Decorator.IO.Providers.CSharp
 			sw.WriteLine($"namespace {ns.Name}");
 			sw.WriteLine("{");
 
-			foreach(var str in WriteModels(ns.Models))
+			foreach (var str in WriteModels(ns.Models))
 			{
 				sw.WriteLine($"\t{str}");
 			}
@@ -40,22 +42,11 @@ namespace Decorator.IO.Providers.CSharp
 		}
 
 		private static IEnumerable<string> WriteModels(Model[] models)
-		{
-			return models.SelectMany(x => WriteModel(x));
-		}
+			=> models.SelectMany(x => WriteModel(x));
 
 		private static IEnumerable<string> WriteModel(Model model)
 		{
-			yield return $"public class {model.Identifier.Pascalize()}";
-
-			if (model.Parents.Length > 0)
-			{
-				yield return ":";
-				yield return model.Parents.Select(x => x.Model.Identifier.Pascalize()).Aggregate((a, b) => $"{a}, {b}");
-			}
-
-			yield return "{";
-			yield return "}";
+			return new ClassGeneratorTemplate().Generate(model);
 		}
 	}
 }

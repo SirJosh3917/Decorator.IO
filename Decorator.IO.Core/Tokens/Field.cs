@@ -10,10 +10,10 @@
 			Identifier = identifier;
 		}
 
-		public string Identifier { get; }
-		public int Position { get; }
+		public string Identifier { get; set; }
+		public int Position { get; set; }
 
-		public Modifier Modifier { get; }
-		public IType Type { get; }
+		public Modifier Modifier { get; set; }
+		public IType Type { get; set; }
 	}
 }
