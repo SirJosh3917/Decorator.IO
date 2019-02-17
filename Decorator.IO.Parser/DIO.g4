@@ -9,8 +9,8 @@ fields : field field* ;
 field : PIPE position? modifier type IDENTIFIER ;
 
 position : PARENTHESIS_OPEN NUMERIC PARENTHESIS_CLOSE ;
-modifier : '$' MODIFIER ;
-type : '#' IDENTIFIER ;
+modifier : MODIFIER ;
+type : IDENTIFIER ;
 
 model_inherit : BRACKET_OPEN inheriters BRACKET_CLOSE ;
 

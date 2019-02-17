@@ -9,7 +9,7 @@ namespace Decorator.IO.Tests.LangParsingTests
 		[Fact]
 		public void ParsesSingleField()
 		{
-			var parser = this.GetDIOParser(@"| $REQUIRED #STR single_field");
+			var parser = this.GetDIOParser(@"| REQUIRED STR single_field");
 
 			var field = parser.fields()
 				.field(0);
@@ -27,9 +27,9 @@ namespace Decorator.IO.Tests.LangParsingTests
 		[Fact]
 		public void ParsesFields()
 		{
-			var parser = this.GetDIOParser(@"| $R #STR single_field
-| (2) $R #STR another_field
-| (8) $O #INT yet_another_field");
+			var parser = this.GetDIOParser(@"| R STR single_field
+| (2) R STR another_field
+| (8) O INT yet_another_field");
 
 			var fields = parser.fields();
 
@@ -73,7 +73,7 @@ namespace Decorator.IO.Tests.LangParsingTests
 		[Fact]
 		public void ParsesFieldWithPosition()
 		{
-			var parser = this.GetDIOParser(@"| (1) $R #STR my_field");
+			var parser = this.GetDIOParser(@"| (1) R STR my_field");
 
 			var field = parser.field();
 

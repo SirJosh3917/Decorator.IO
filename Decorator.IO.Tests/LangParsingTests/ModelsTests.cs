@@ -25,22 +25,22 @@ b [a, b]:
 			var models = this.GetDIOParser(@"
 
 my_model:
-| $R #INT some_field
-| (2) $R #INT another_field
-| (3) $R #INT another_field
-| (18) $R #INT yet_another_field
-| $R #INT yEEt
+| R INT some_field
+| (2) R INT another_field
+| (3) R INT another_field
+| (18) R INT yet_another_field
+| R INT yEEt
 
 another_model:
-| $R #INT yote
-| $R #INT yate
-| $R #INT yeet
+| R INT yote
+| R INT yate
+| R INT yeet
 
 some_model:
 blank_models [some_parent]:
 blank_model_ftw [another_parent, wait_even_another]:
 with_field:
-| (123) $FA #STR cheap
+| (123) FA STR cheap
 
 no_fields:
 

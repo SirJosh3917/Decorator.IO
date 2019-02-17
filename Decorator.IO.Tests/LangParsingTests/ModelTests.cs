@@ -23,7 +23,7 @@ namespace Decorator.IO.Tests.LangParsingTests
 		{
 			var parser = this.GetDIOParser(@"
 sample_model:
-| (0) $R #STR my_field
+| (0) R STR my_field
 ");
 
 			var model = parser.model();
@@ -46,9 +46,9 @@ sample_model:
 		{
 			var parser = this.GetDIOParser(@"
 sample_model:
-| (0) $R #STR my_field
-| (1) $O #INT another_field
-| $F #STR im_not_testing_this
+| (0) R STR my_field
+| (1) O INT another_field
+| F STR im_not_testing_this
 ");
 
 			var model = parser.model();

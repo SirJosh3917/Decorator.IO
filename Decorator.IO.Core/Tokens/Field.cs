@@ -1,6 +1,6 @@
 ﻿namespace Decorator.IO.Core.Tokens
 {
-	public class Field
+	public class Field : IToken
 	{
 		public Field(int position, Modifier modifier, IType type, string identifier)
 		{

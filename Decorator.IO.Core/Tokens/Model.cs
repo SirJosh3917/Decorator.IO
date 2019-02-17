@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace Decorator.IO.Core.Tokens
 {
-	public class Model : IType
+	public class Model : IToken, IType
 	{
 		public Model(string identifier, IEnumerable<Parent> parents, IEnumerable<Field> fields)
 		{

@@ -1,9 +1,9 @@
 ﻿namespace Decorator.IO.Core.Tokens
 {
-	public class Parent
+	public class Parent : IToken
 	{
-		public Parent(string identifier) => Identifier = identifier;
+		public Parent(Model model) => Model = model;
 
-		public string Identifier { get; }
+		public Model Model { get; }
 	}
 }
