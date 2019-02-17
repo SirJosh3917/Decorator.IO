@@ -12,8 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="messages.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <None Update="dio.g4">
+      <Generator>MSBuild:Compile</Generator>
     </None>
   </ItemGroup>
 
