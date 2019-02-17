@@ -27,7 +27,8 @@ namespace Decorator.IO.Providers.CSharp
 					(
 						name: $"I{model.Identifier}",
 						modifiers: "public interface",
-						inherit: model.Parents.Select(x => $"I{x.Model.Identifier}").ToArray()
+						inherit: model.Parents.Select(x => $"I{x.Model.Identifier}")
+						.Prepend($"IModel<I{model.Identifier}>").ToArray()
 					)
 				});
 
