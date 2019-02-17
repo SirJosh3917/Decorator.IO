@@ -12,6 +12,8 @@ namespace Decorator.IO.Parser
 	{
 		private List<Model> _models = new List<Model>();
 
+		public Model[] GetModels() => _models.ToArray();
+
 		public override IToken VisitModel([NotNull] DIOParser.ModelContext context)
 		{
 			var parents = new Parent[0];
@@ -110,6 +112,17 @@ namespace Decorator.IO.Parser
 				case "INT":
 				case "I":
 					return new IntegerType();
+
+				case "UNSIGNED_INTEGER":
+				case "U_INTEGER":
+				case "UINT":
+				case "UI":
+					return new UnsignedIntegerType();
+
+				case "BYTE":
+				case "BYT":
+				case "B":
+					return new ByteType();
 
 				default: return _models.First(x => x.Identifier == input);
 			}

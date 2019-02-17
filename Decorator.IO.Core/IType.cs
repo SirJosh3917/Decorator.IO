@@ -6,11 +6,23 @@ namespace Decorator.IO.Core
 	{
 	}
 
+	public interface INumber : IType
+	{
+	}
+
 	public class StringType : IType
 	{
 	}
 
-	public class IntegerType : IType
+	public class IntegerType : IType, INumber
+	{
+	}
+
+	public class UnsignedIntegerType : IType, INumber
+	{
+	}
+
+	public class ByteType : IType, INumber
 	{
 	}
 

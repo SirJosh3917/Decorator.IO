@@ -14,6 +14,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Decorator.IO.Core\Decorator.IO.Core.csproj" />
     <ProjectReference Include="..\Decorator.IO.Parser\Decorator.IO.Parser.csproj" />
+    <ProjectReference Include="..\Decorator.IO.Providers.CSharp\Decorator.IO.Providers.CSharp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

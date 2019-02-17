@@ -1,4 +1,7 @@
-﻿using Decorator.IO.Parser;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Parser;
+using Decorator.IO.Providers.CSharp;
+using System;
 using System.IO;
 
 namespace Decorator.IO
@@ -20,6 +23,17 @@ namespace Decorator.IO
 				var visitor = new Tokenizer();
 
 				visitor.Visit(parser.models());
+
+				var models = visitor.GetModels();
+
+				ILanguageProvider csprovider = new CSharpProvider();
+				var generated = csprovider.Generate(models);
+
+				foreach (var b in generated)
+				{
+					Console.Write(Convert.ToChar(b));
+				}
+
 				System.Console.ReadLine();
 			}
 		}
