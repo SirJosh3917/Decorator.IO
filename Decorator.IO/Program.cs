@@ -31,7 +31,7 @@ namespace Decorator.IO
 				{
 					model.Identifier = csprovider.ModifyStringCasing(model.Identifier);
 
-					foreach(var field in model.Fields)
+					foreach (var field in model.Fields)
 					{
 						field.Identifier = csprovider.ModifyStringCasing(field.Identifier);
 					}

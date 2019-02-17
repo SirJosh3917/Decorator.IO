@@ -1,8 +1,8 @@
 ﻿/*
- * 
+ *
  * This class is purely becauase I don't know where I'm going with the generator.
  * With this template, it becomes much clearer what I have to do.
- * 
+ *
  */
 
 /*
