@@ -1,9 +1,8 @@
 ﻿using Decorator.IO.Core.Tokens;
 using Decorator.IO.Providers.Core;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
@@ -11,10 +10,7 @@ namespace Decorator.IO.Providers.CSharp.Generators
 	{
 		private readonly Model[] _models;
 
-		public ModelsGenerator(Model[] models)
-		{
-			_models = models;
-		}
+		public ModelsGenerator(Model[] models) => _models = models;
 
 		public IEnumerable<GeneratorItem> Generate()
 		{

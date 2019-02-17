@@ -1,10 +1,9 @@
 ﻿using Decorator.IO.Core.Tokens;
 using Decorator.IO.Providers.Core;
 using Decorator.IO.Providers.CSharp.Processes;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
@@ -12,10 +11,7 @@ namespace Decorator.IO.Providers.CSharp.Generators
 	{
 		private readonly Model _model;
 
-		public ModelClassGenerator(Model model)
-		{
-			_model = model;
-		}
+		public ModelClassGenerator(Model model) => _model = model;
 
 		public IEnumerable<GeneratorItem> Generate()
 			=> new ClassProcess
@@ -62,9 +58,9 @@ namespace Decorator.IO.Providers.CSharp.Generators
 			)
 			.Generate();
 
-			foreach(var parent in model.Parents)
+			foreach (var parent in model.Parents)
 			{
-				properties.Concat(GenerateClassProperties(parent.Model));
+				properties = properties.Concat(GenerateClassProperties(parent.Model));
 			}
 
 			return properties;

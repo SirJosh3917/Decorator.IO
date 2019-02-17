@@ -10,16 +10,16 @@
 NAMESPACE Example;
 
 a:
-| (0) R I integer_field;
-| (1) R S string_field;
+| (0) R I integer_field
+| (1) R S string_field
 
 b:
-| (2) R I another_integer_field;
-| (3) R S another_string_field;
+| (2) R I another_integer_field
+| (3) R S another_string_field
 
 c [a, b]:
-| (4) R I yet_another_integer_field;
-| (5) R I yet_another_string_field;
+| (4) R I yet_another_integer_field
+| (5) R I yet_another_string_field
 
  */
 

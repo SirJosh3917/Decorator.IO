@@ -6,7 +6,6 @@ using Decorator.IO.Providers.CSharp.Processes;
 using Humanizer;
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Decorator.IO.Providers.CSharp

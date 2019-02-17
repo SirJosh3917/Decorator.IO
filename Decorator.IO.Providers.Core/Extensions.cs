@@ -42,7 +42,7 @@ namespace Decorator.IO.Providers.Core
 			this IEnumerable<GeneratorItem> generatorItems
 		)
 		{
-			foreach(var item in generatorItems)
+			foreach (var item in generatorItems)
 			{
 				yield return item;
 			}
