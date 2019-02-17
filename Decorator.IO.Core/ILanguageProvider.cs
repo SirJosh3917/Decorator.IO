@@ -4,6 +4,6 @@ namespace Decorator.IO.Core
 {
 	public interface ILanguageProvider
 	{
-		byte[] Generate(Model[] models);
+		byte[] Generate(Namespace ns);
 	}
 }

@@ -1,6 +1,6 @@
 grammar DIO;
 
-models : model+ ;
+models : name_space model* ;
 model : model_identifier fields? ;
 
 model_identifier : IDENTIFIER model_inherit? COLON ;
@@ -16,6 +16,8 @@ model_inherit : BRACKET_OPEN inheriters BRACKET_CLOSE ;
 
 inheriters : inherit (COMMA inherit)* ;
 inherit : IDENTIFIER ;
+
+name_space : 'NAMESPACE' .*? ';' ;
 
 compileUnit : EOF ;
 

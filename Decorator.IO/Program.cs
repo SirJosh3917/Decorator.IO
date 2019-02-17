@@ -22,12 +22,13 @@ namespace Decorator.IO
 				var parser = GenParser.GetParser(new Antlr4.Runtime.AntlrInputStream(fs));
 				var visitor = new Tokenizer();
 
+
 				visitor.Visit(parser.models());
 
-				var models = visitor.GetModels();
+				var ns = visitor.GetNamespace();
 
 				ILanguageProvider csprovider = new CSharpProvider();
-				var generated = csprovider.Generate(models);
+				var generated = csprovider.Generate(ns);
 
 				foreach (var b in generated)
 				{

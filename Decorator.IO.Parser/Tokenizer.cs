@@ -11,8 +11,18 @@ namespace Decorator.IO.Parser
 	public class Tokenizer : DIOBaseVisitor<IToken>
 	{
 		private List<Model> _models = new List<Model>();
+		private string _ns;
+		public Namespace GetNamespace() => new Namespace(_ns, _models.ToArray());
 
-		public Model[] GetModels() => _models.ToArray();
+		public override IToken VisitModels([NotNull] DIOParser.ModelsContext context)
+		{
+			var ns = context.name_space();
+			var nschars = ns.children[1].GetText();
+			_ns = nschars;
+
+			base.VisitModels(context);
+			return null;
+		}
 
 		public override IToken VisitModel([NotNull] DIOParser.ModelContext context)
 		{
