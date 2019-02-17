@@ -6,6 +6,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="SampleGeneration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="SampleGeneration.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Humanizer.Core" Version="2.5.16" />
   </ItemGroup>
 
