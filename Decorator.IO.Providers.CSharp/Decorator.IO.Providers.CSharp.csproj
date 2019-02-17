@@ -22,8 +22,4 @@
     <ProjectReference Include="..\Decorator.IO.Providers.Core\Decorator.IO.Providers.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Processes\" />
-  </ItemGroup>
-
 </Project>

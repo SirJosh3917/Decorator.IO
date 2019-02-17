@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text;
 
-namespace Decorator.IO.Providers.Core
+namespace Decorator.IO.Providers.Core.Processes
 {
 	public class PrefixProcess : IStringProcess
 	{
