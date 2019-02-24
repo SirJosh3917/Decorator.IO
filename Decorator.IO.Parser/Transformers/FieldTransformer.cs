@@ -1,4 +1,5 @@
-﻿using Decorator.IO.Core.Tokens;
+﻿using System;
+using Decorator.IO.Core.Tokens;
 
 using System.Collections.Generic;
 
@@ -24,7 +25,7 @@ namespace Decorator.IO.Parser.Transformers
 
 			return new Field
 			(
-				position: _counter,
+				position: Convert.ToInt32(txtPosition ?? _counter.ToString()),
 				modifier: new ModifierTransformer().Transform(txtModifier),
 				type: new TypeTransformer(_models).Transform(txtType),
 				identifier: txtLabel

@@ -3,6 +3,7 @@ using Decorator.IO.Providers.Core;
 
 using System.Collections.Generic;
 using System.Text;
+using Decorator.IO.Providers.Core.Processes;
 
 namespace Decorator.IO.Providers.CSharp.Generators
 {
@@ -22,13 +23,39 @@ namespace Decorator.IO.Providers.CSharp.Generators
 
 			yield return serialize;
 
-			var deserialize = new StringBuilder("public static ");
+			foreach (var line in ProcessGenerator.NewBracedSectionProcess().Process(GenerateSerializeMethod()))
+			{
+				yield return line;
+			}
+
+			var deserialize = new StringBuilder("public static bool TryDeserialize");
 			deserialize.Append(_model.Identifier);
-			deserialize.Append(" Deserialize");
+			deserialize.Append("(object[] data, out ");
 			deserialize.Append(_model.Identifier);
-			deserialize.Append("(object[] data)");
+			deserialize.Append(" instance)");
 
 			yield return deserialize;
+
+			foreach (var line in ProcessGenerator.NewBracedSectionProcess().Process(GenerateDeserializeMethod()))
+			{
+				yield return line;
+			}
+		}
+
+		public IEnumerable<GeneratorItem> GenerateSerializeMethod()
+		{
+			foreach (var line in new SerializeCodeGenerator(_model).Generate())
+			{
+				yield return line;
+			}
+		}
+
+		public IEnumerable<GeneratorItem> GenerateDeserializeMethod()
+		{
+			foreach (var line in new DeserializeCodeGenerator(_model).Generate())
+			{
+				yield return line;
+			}
 		}
 	}
 }

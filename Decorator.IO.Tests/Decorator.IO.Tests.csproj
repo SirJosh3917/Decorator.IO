@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Decorator.IO.Parser\Decorator.IO.Parser.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="TokenParserTests\" />
-  </ItemGroup>
-
 </Project>

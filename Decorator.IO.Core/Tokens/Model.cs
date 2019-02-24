@@ -5,6 +5,8 @@ namespace Decorator.IO.Core.Tokens
 {
 	public class Model : IToken, IType
 	{
+		public bool IsValueType => false;
+
 		public Model(string identifier, IEnumerable<Parent> parents, IEnumerable<Field> fields)
 		{
 			Identifier = identifier;

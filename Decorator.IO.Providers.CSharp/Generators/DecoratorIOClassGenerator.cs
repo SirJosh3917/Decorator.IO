@@ -33,10 +33,13 @@ namespace Decorator.IO.Providers.CSharp.Generators
 
 		public static IEnumerable<GeneratorItem> IModelInterface()
 		{
-			yield return "public interface IModel<T>";
-			yield return "\twhere T : IModel<T>";
+			yield return "public interface IModel";
 			yield return "{";
 			yield return "\tobject[] Serialize();";
+			yield return "}";
+			yield return "public interface IModel<T> : IModel";
+			yield return "\twhere T : IModel<T>";
+			yield return "{";
 			yield return "}";
 		}
 	}

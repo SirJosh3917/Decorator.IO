@@ -4,6 +4,7 @@ using Decorator.IO.Providers.CSharp.Processes;
 
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 
 namespace Decorator.IO.Providers.CSharp.Generators
@@ -71,11 +72,12 @@ namespace Decorator.IO.Providers.CSharp.Generators
 		public static IEnumerable<GeneratorItem> GenerateClassMethods(Model model)
 		{
 			var Deserialize = new StringBuilder();
-			Deserialize.Append("public static ");
+			Deserialize.Append("public static bool");
+			Deserialize.Append(" TryDeserialize(object[] data, out ");
 			Deserialize.Append(model.Identifier);
-			Deserialize.Append(" Deserialize(object[] data) => DecoratorIO.Deserialize");
+			Deserialize.Append(" instance) => DecoratorIO.TryDeserialize");
 			Deserialize.Append(model.Identifier);
-			Deserialize.Append("(data);");
+			Deserialize.Append("(data, out instance);");
 
 			yield return Deserialize;
 
