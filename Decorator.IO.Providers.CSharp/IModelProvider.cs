@@ -1,13 +1,9 @@
-﻿using System;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
+﻿using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-
-using static Microsoft.CodeAnalysis.CSharp.SyntaxFactory;
 
 namespace Decorator.IO.Providers.CSharp
 {
-	public class ModelNonGenericInterface : IRoslynCodeProvider
+	public class IModelNonGenericInterface : IRoslynCodeProvider
 	{
 		public MemberDeclarationSyntax Provide()
 		{
@@ -21,7 +17,7 @@ public interface IModel
 		}
 	}
 
-	public class ModelInterface : IRoslynCodeProvider
+	public class IModelProvider : IRoslynCodeProvider
 	{
 		public MemberDeclarationSyntax Provide()
 		{

@@ -4,11 +4,12 @@ using Decorator.IO.Providers.Core;
 using Humanizer;
 
 using Microsoft.CodeAnalysis;
-
-using System.Collections.Generic;
-using System.Text;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace Decorator.IO.Providers.CSharp
 {
@@ -25,11 +26,13 @@ namespace Decorator.IO.Providers.CSharp
 					(
 						new[]
 						{
-							new ModelNonGenericInterface().Provide(),
-							new ModelInterface().Provide()
+							new IModelNonGenericInterface().Provide(),
+							new IModelProvider().Provide(),
 						}
+							.Concat(dioNamespace.Models.Select(x => new ModelInterfaceProvider(x).Provide()))
+							.Concat(dioNamespace.Models.Select(x => new ModelDefinitionProvider(x).Provide()))
 					)
-				).NormalizeWhitespace().ToFullString().Split('\n'))
+				).NormalizeWhitespace().ToFullString().Replace("\r", "").Split('\n'))
 			{
 				yield return new StringBuilder(line);
 			}
