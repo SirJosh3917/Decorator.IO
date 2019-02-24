@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Decorator.IO.Core.Tokens;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using Decorator.IO.Core.Tokens;
 
 namespace Decorator.IO.Providers.CSharp
 {
@@ -10,10 +9,7 @@ namespace Decorator.IO.Providers.CSharp
 	{
 		private readonly Model _model;
 
-		public ModelFlattener(Model model)
-		{
-			_model = model;
-		}
+		public ModelFlattener(Model model) => _model = model;
 
 		public Field[] FlattenToFields()
 		{

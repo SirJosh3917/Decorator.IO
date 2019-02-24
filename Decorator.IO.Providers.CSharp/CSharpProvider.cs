@@ -1,12 +1,14 @@
 ﻿using Decorator.IO.Core.Tokens;
 using Decorator.IO.Providers.Core;
-using Decorator.IO.Providers.CSharp.Generators;
-using Decorator.IO.Providers.CSharp.Processes;
 
 using Humanizer;
 
+using Microsoft.CodeAnalysis;
+
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Decorator.IO.Providers.CSharp
 {
@@ -16,11 +18,21 @@ namespace Decorator.IO.Providers.CSharp
 
 		public override IEnumerable<StringBuilder> GenerateFrom(Namespace dioNamespace)
 		{
-			var nsProces = new NamespaceProcess(dioNamespace.Name);
-
-			var modelGen = new ModelsGenerator(dioNamespace.Models);
-
-			return nsProces.Process(modelGen);
+			foreach (var line in SyntaxFactory.CompilationUnit()
+				.WithMembers
+				(
+					SyntaxFactory.List<MemberDeclarationSyntax>
+					(
+						new[]
+						{
+							new ModelNonGenericInterface().Provide(),
+							new ModelInterface().Provide()
+						}
+					)
+				).NormalizeWhitespace().ToFullString().Split('\n'))
+			{
+				yield return new StringBuilder(line);
+			}
 		}
 	}
 }
