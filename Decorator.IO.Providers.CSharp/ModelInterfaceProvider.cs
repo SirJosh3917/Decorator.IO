@@ -56,7 +56,6 @@ namespace Decorator.IO.Providers.CSharp
 
 		public static PropertyDeclarationSyntax GeneratePropertySyntax(Field field)
 			=> PropertyDeclaration(IdentifierName(field.Type.Identifier), field.Identifier)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
 				.WithAccessorList(AccessorList(List(new[]
 					{
 						AccessorDeclaration(SyntaxKind.GetAccessorDeclaration)

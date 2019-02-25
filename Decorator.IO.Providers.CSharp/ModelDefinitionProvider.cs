@@ -21,6 +21,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public MemberDeclarationSyntax Provide()
 		{
+			var options = new CSharpParseOptions(LanguageVersion.Latest);
 			var properties = new ModelFlattener(_model).FlattenToFields().Select(x => GeneratePropertySyntax(x));
 			var methods = new[]
 			{
@@ -69,11 +70,18 @@ namespace Decorator.IO.Providers.CSharp
 							Argument(IdentifierName("data")), Token(SyntaxKind.CommaToken),
 							Argument(IdentifierName("instance")).WithRefKindKeyword(Token(SyntaxKind.OutKeyword))
 						})))))
-					.WithSemicolonToken ( Token(SyntaxKind.SemicolonToken) )
-			};
+					.WithSemicolonToken ( Token(SyntaxKind.SemicolonToken) ),
+
+				
+				CSharpSyntaxTree.ParseText(@"
+public override string ToString() => $""" + properties.Select(x => $"{x.Identifier}: {{this.{x.Identifier}}}").Aggregate((l, r) => $"{l}, {r}") + @""";", options).GetCompilationUnitRoot()
+				.Members.First()
+		};
+
+			
 
 			return ClassDeclaration(_model.Identifier)
-				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword)))
+				.WithModifiers(TokenList(Token(SyntaxKind.PublicKeyword), Token(SyntaxKind.SealedKeyword)))
 				.WithBaseList(BaseList(
 					SingletonSeparatedList<BaseTypeSyntax>(SimpleBaseType(IdentifierName("I" + _model.Identifier)))))
 				.WithMembers(List(properties.Cast<MemberDeclarationSyntax>()

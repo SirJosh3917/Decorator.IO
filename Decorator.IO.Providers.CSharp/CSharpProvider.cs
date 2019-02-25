@@ -22,16 +22,27 @@ namespace Decorator.IO.Providers.CSharp
 			foreach (var line in SyntaxFactory.CompilationUnit()
 				.WithMembers
 				(
-					SyntaxFactory.List<MemberDeclarationSyntax>
-					(
-						new[]
-						{
-							new IModelNonGenericInterface().Provide(),
-							new IModelProvider().Provide(),
-						}
-							.Concat(dioNamespace.Models.Select(x => new ModelInterfaceProvider(x).Provide()))
-							.Concat(dioNamespace.Models.Select(x => new ModelDefinitionProvider(x).Provide()))
+					SyntaxFactory.SingletonList<MemberDeclarationSyntax>(
+						SyntaxFactory.NamespaceDeclaration(SyntaxFactory.IdentifierName(dioNamespace.Name))
+							.WithMembers(SyntaxFactory.List(
+									new[]
+										{
+											new IModelNonGenericInterface().Provide(),
+											new IModelProvider().Provide(),
+										}
+										.Concat(dioNamespace.Models.Select(x =>
+											new ModelInterfaceProvider(x).Provide()))
+										.Concat(dioNamespace.Models.Select(x =>
+											new ModelDefinitionProvider(x).Provide()))
+										.Concat(new []
+										{
+											new DecoratorIOProvider(dioNamespace.Models, new DefaultVariableNameProvider()).Provide()
+										})
+										.ToArray()
+								)
+							)
 					)
+
 				).NormalizeWhitespace().ToFullString().Replace("\r", "").Split('\n'))
 			{
 				yield return new StringBuilder(line);
