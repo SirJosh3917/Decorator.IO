@@ -12,7 +12,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public ModelFlattener(Model model) => _model = model;
 
-		public Field[] FlattenToFields()
+		public Field[] FlattenToFields(bool includeOwnFields = true)
 		{
 			var fields = new List<Field>();
 
@@ -25,20 +25,23 @@ namespace Decorator.IO.Providers.CSharp
 				fields.AddRange(newFields);
 			}
 
-			// if we've redefined fields in the model we'll replace the parent's fields
-			// this is so we can update a property or something with a different position in inheriting classes
-			foreach (var field in _model.Fields)
+			if (includeOwnFields)
 			{
-				bool Selector(Field f) => f.Identifier == field.Identifier;
-
-				if (!fields.Any(Selector))
+				// if we've redefined fields in the model we'll replace the parent's fields
+				// this is so we can update a property or something with a different position in inheriting classes
+				foreach (var field in _model.Fields)
 				{
-					fields.Add(field);
-					continue;
-				}
+					bool Selector(Field f) => f.Identifier == field.Identifier;
 
-				var index = fields.IndexOf(fields.First(Selector));
-				fields[index] = field;
+					if (!fields.Any(Selector))
+					{
+						fields.Add(field);
+						continue;
+					}
+
+					var index = fields.IndexOf(fields.First(Selector));
+					fields[index] = field;
+				}
 			}
 
 			return fields.ToArray();

@@ -21,12 +21,10 @@ namespace Decorator.IO.Providers.CSharp
 
 		public static bool ModelParentsDontHaveField(Field thisField, Model model)
 		{
-			return !model.Parents
-					// if the parent has any field with the same identifier
-				.Any(parent => parent.Model.Fields.Any(parentField => parentField.Identifier == thisField.Identifier)
+			var fields = new ModelFlattener(model).FlattenToFields(false);
 
-								 // or the parent has fields up above itself
-				                 || ModelParentsDontHaveField(thisField, parent.Model));
+			return !fields
+				.Any(field => field.Identifier == thisField.Identifier);
 		}
 
 		public MemberDeclarationSyntax Provide()
