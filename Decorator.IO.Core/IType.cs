@@ -5,38 +5,42 @@ namespace Decorator.IO.Core
 	public interface IType
 	{
 		string Identifier { get; }
+	}
+
+	public interface IBuiltinType : IType
+	{
 		bool IsValueType { get; }
 	}
 
-	public interface INumber : IType
+	public interface INumber : IBuiltinType
 	{
 	}
 
-	public class VoidType : IType
+	public class VoidType : IBuiltinType
 	{
 		public string Identifier => "void";
 		public bool IsValueType => false;
 	}
 
-	public class StringType : IType
+	public class StringType : IBuiltinType
 	{
 		public string Identifier => "string";
 		public bool IsValueType => false;
 	}
 
-	public class IntegerType : IType, INumber
+	public class IntegerType : INumber
 	{
 		public string Identifier => "int";
 		public bool IsValueType => true;
 	}
 
-	public class UnsignedIntegerType : IType, INumber
+	public class UnsignedIntegerType : INumber
 	{
 		public string Identifier => "uint";
 		public bool IsValueType => true;
 	}
 
-	public class ByteType : IType, INumber
+	public class ByteType : INumber
 	{
 		public string Identifier => "byte";
 		public bool IsValueType => false;

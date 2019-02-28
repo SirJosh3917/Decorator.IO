@@ -24,7 +24,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Decorator.IO.Core\Decorator.IO.Core.csproj" />
-    <ProjectReference Include="..\Decorator.IO.Providers.Core\Decorator.IO.Providers.Core.csproj" />
   </ItemGroup>
 
 </Project>

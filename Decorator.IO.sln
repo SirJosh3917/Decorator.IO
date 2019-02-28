@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Decorator.IO.Parser", "Deco
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Decorator.IO.Providers.CSharp", "Decorator.IO.Providers.CSharp\Decorator.IO.Providers.CSharp.csproj", "{7554E692-EF30-4951-A75B-273B8369A156}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decorator.IO.Providers.Core", "Decorator.IO.Providers.Core\Decorator.IO.Providers.Core.csproj", "{33D679D2-21B1-4431-8254-65DBD5607C74}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decorator.IO.Parser.Finalizer", "Decorator.IO.Parser.Finalizer\Decorator.IO.Parser.Finalizer.csproj", "{F2BFB644-AB9A-4C4F-B18F-743853AE368F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +41,10 @@ Global
 		{7554E692-EF30-4951-A75B-273B8369A156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7554E692-EF30-4951-A75B-273B8369A156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7554E692-EF30-4951-A75B-273B8369A156}.Release|Any CPU.Build.0 = Release|Any CPU
-		{33D679D2-21B1-4431-8254-65DBD5607C74}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{33D679D2-21B1-4431-8254-65DBD5607C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{33D679D2-21B1-4431-8254-65DBD5607C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{33D679D2-21B1-4431-8254-65DBD5607C74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
