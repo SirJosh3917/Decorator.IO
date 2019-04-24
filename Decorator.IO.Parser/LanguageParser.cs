@@ -16,25 +16,9 @@ namespace Decorator.IO.Parser
 			from name in Parse.AnyChar.Until(Parse.Char(';')).Text()
 			select name;
 
-		public static readonly Parser<Type> CSharpInt =
-			from _ in Parse.String("int")
-				.Or(Parse.String("i"))
-			select typeof(int);
-
-		public static readonly Parser<Type> CSharpString =
-			from _ in Parse.String("string")
-				.Or(Parse.String("str"))
-				.Or(Parse.String("s"))
-			select typeof(string);
-
-		public static readonly Parser<Type> CSharpType =
-			from type in CSharpInt
-				.Or(CSharpString)
-			select type;
-
-		public static readonly Parser<string> FieldName =
+		public static readonly Parser<string> Identifier =
 			from chars in Parse.Chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_1234567890")
-				.AtLeastOnce()
+				.AtLeastOnce().Token()
 			select new string(chars.ToArray());
 
 		public static readonly Parser<int> DecoratorNumber =
@@ -48,7 +32,7 @@ namespace Decorator.IO.Parser
 			from number in DecoratorNumber.Token()
 			from fieldType in FieldType.Token()
 			from csharpType in CSharpType.Token()
-			from name in FieldName.Token()
+			from name in Identifier.Token()
 			select new DecoratorField
 			{
 				Index = number,
@@ -56,6 +40,13 @@ namespace Decorator.IO.Parser
 				CSharpType = csharpType,
 				Name = name
 			};
+	}
+
+	public class DecoratorClass
+	{
+		public string[] Inherits { get; set; }
+		public string Name { get; set; }
+		public DecoratorField Fields { get; set; }
 	}
 
 	public class DecoratorField
