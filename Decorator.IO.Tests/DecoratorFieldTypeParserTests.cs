@@ -1,18 +1,18 @@
 ﻿using Decorator.IO.Parser;
+
 using FluentAssertions;
+
 using Sprache;
-using System;
-using System.Collections.Generic;
-using System.Text;
+
 using Xunit;
 
 namespace Decorator.IO.Tests
 {
-	public class DecoratorFieldTypeParserTests
+	public class FieldTypeParserTests
 	{
-		private void Test(Parser<DecoratorType> parser, DecoratorType expected, params string[] values)
+		private void Test(Parser<FieldType> parser, FieldType expected, params string[] values)
 		{
-			foreach(var i in values)
+			foreach (var i in values)
 			{
 				parser.Parse(i)
 					.Should().Be(expected);
@@ -25,10 +25,10 @@ namespace Decorator.IO.Tests
 		}
 
 		[Theory]
-		[InlineData(DecoratorType.Required, "R")]
-		[InlineData(DecoratorType.Optional, "O")]
-		public void Parse(DecoratorType expected, string parse)
-			=> DecoratorFieldTypeParsers.FieldType
+		[InlineData(FieldType.Required, "R")]
+		[InlineData(FieldType.Optional, "O")]
+		public void Parse(FieldType expected, string parse)
+			=> LanguageParsers.FieldType
 				.Parse(parse)
 				.Should().Be(expected);
 
@@ -36,8 +36,8 @@ namespace Decorator.IO.Tests
 		public void Required()
 			=> Test
 			(
-				DecoratorFieldTypeParsers.Required,
-				DecoratorType.Required,
+				LanguageParsers.Required,
+				FieldType.Required,
 				"R", "REQ", "REQUIRED"
 			);
 
@@ -45,8 +45,8 @@ namespace Decorator.IO.Tests
 		public void Optional()
 			=> Test
 			(
-				DecoratorFieldTypeParsers.Optional,
-				DecoratorType.Optional,
+				LanguageParsers.Optional,
+				FieldType.Optional,
 				"O", "OPT", "OPTIONAL"
 			);
 	}

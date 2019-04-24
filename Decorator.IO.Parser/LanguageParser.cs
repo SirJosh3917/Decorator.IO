@@ -1,66 +1,57 @@
 ﻿using Sprache;
+
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace Decorator.IO.Parser
 {
-	public static class DecoratorFieldTypeParsers
+	public static partial class LanguageParsers
 	{
-		public static readonly Parser<DecoratorType> Required =
-			from @required in Parse.String("R")
-				.Or(Parse.String("REQ"))
-				.Or(Parse.String("REQUIRED"))
-			select DecoratorType.Required;
-
-		public static readonly Parser<DecoratorType> Optional =
-			from @required in Parse.String("O")
-				.Or(Parse.String("OPT"))
-				.Or(Parse.String("OPTIONAL"))
-			select DecoratorType.Optional;
-
-		public static readonly Parser<DecoratorType> FieldType =
-			from fieldType in Required
-				.Or(Optional)
-			select fieldType;
-	}
-
-	public static class LanguageParser
-	{
-		public static readonly Parser<string> Number
-			= Parse.Digit.AtLeastOnce()
-				.Text()
-				.Token();
+		public static readonly Parser<int> NumberParser =
+			from number in Parse.Digit.AtLeastOnce().Text()
+			select int.Parse(number);
 
 		public static readonly Parser<string> Namespace =
-			from @namespace in Parse.String("NAMESPACE").Once()
-			from @whitespace in Parse.WhiteSpace.AtLeastOnce()
+			from _ in Parse.String("NAMESPACE").Once().Token()
 			from name in Parse.AnyChar.Until(Parse.Char(';')).Text()
 			select name;
 
+		public static readonly Parser<Type> CSharpInt =
+			from _ in Parse.String("int")
+				.Or(Parse.String("i"))
+			select typeof(int);
+
+		public static readonly Parser<Type> CSharpString =
+			from _ in Parse.String("string")
+				.Or(Parse.String("str"))
+				.Or(Parse.String("s"))
+			select typeof(string);
+
 		public static readonly Parser<Type> CSharpType =
-			null;
+			from type in CSharpInt
+				.Or(CSharpString)
+			select type;
 
 		public static readonly Parser<string> FieldName =
-			null;
+			from chars in Parse.Chars("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_1234567890")
+				.AtLeastOnce()
+			select new string(chars.ToArray());
+
+		public static readonly Parser<int> DecoratorNumber =
+			from _ in Parse.Char('(').Optional().Token()
+			from number in NumberParser.Token()
+			from __ in Parse.Char(')').Optional().Token()
+			select number;
 
 		public static readonly Parser<DecoratorField> DecoratorField =
-			from @pipe in Parse.Char('|').Once()
-			from @whitespace in Parse.WhiteSpace.Optional()
-			from @openParenthesis in Parse.Char('(').Optional()
-			from @whitespace1 in Parse.WhiteSpace.Optional()
-			from number in Number
-			from @whitespace2 in Parse.WhiteSpace.Optional()
-			from @closeParenthesis in Parse.Char(')').Optional()
-			from @whitespace3 in Parse.WhiteSpace.AtLeastOnce()
-			from fieldType in DecoratorFieldTypeParsers.FieldType
-			from @whitespace4 in Parse.WhiteSpace.AtLeastOnce()
-			from csharpType in CSharpType
-			from @whitespace5 in Parse.WhiteSpace.AtLeastOnce()
-			from name in FieldName
+			from _ in Parse.Char('|').Once().Token()
+			from number in DecoratorNumber.Token()
+			from fieldType in FieldType.Token()
+			from csharpType in CSharpType.Token()
+			from name in FieldName.Token()
 			select new DecoratorField
 			{
-				Index = int.Parse(number),
+				Index = number,
 				Type = fieldType,
 				CSharpType = csharpType,
 				Name = name
@@ -70,12 +61,12 @@ namespace Decorator.IO.Parser
 	public class DecoratorField
 	{
 		public int Index { get; set; }
-		public DecoratorType Type { get; set; }
+		public FieldType Type { get; set; }
 		public Type CSharpType { get; set; }
 		public string Name { get; set; }
 	}
 
-	public enum DecoratorType
+	public enum FieldType
 	{
 		Required,
 		Optional
