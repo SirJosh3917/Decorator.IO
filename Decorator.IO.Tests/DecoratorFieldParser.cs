@@ -1,9 +1,11 @@
 ﻿using Decorator.IO.Parser;
+
 using FluentAssertions;
+
 using Sprache;
-using System;
+
 using System.Collections.Generic;
-using System.Text;
+
 using Xunit;
 
 namespace Decorator.IO.Tests

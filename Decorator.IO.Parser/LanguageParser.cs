@@ -1,6 +1,5 @@
 ﻿using Sprache;
 
-using System;
 using System.Linq;
 
 namespace Decorator.IO.Parser
