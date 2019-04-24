@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.271
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Decorator.IO", "Decorator.IO\Decorator.IO.csproj", "{B3F8850F-D8DF-4018-8FDA-2C19BE384F8D}"
 EndProject
@@ -12,8 +12,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Decorator.IO.Parser", "Decorator.IO.Parser\Decorator.IO.Parser.csproj", "{13AE8224-7026-4405-947A-7FE8D3030224}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Decorator.IO.Providers.CSharp", "Decorator.IO.Providers.CSharp\Decorator.IO.Providers.CSharp.csproj", "{7554E692-EF30-4951-A75B-273B8369A156}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Decorator.IO.Parser.Finalizer", "Decorator.IO.Parser.Finalizer\Decorator.IO.Parser.Finalizer.csproj", "{F2BFB644-AB9A-4C4F-B18F-743853AE368F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +39,6 @@ Global
 		{7554E692-EF30-4951-A75B-273B8369A156}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7554E692-EF30-4951-A75B-273B8369A156}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7554E692-EF30-4951-A75B-273B8369A156}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F2BFB644-AB9A-4C4F-B18F-743853AE368F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
