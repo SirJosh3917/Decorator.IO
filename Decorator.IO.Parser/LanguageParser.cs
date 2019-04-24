@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Decorator.IO.Parser
 {
-	public class DecoratorFieldTypeParsers
+	public static class DecoratorFieldTypeParsers
 	{
 		public static readonly Parser<DecoratorType> Required =
 			from @required in Parse.String("R")
@@ -17,7 +17,12 @@ namespace Decorator.IO.Parser
 			from @required in Parse.String("O")
 				.Or(Parse.String("OPT"))
 				.Or(Parse.String("OPTIONAL"))
-			select DecoratorType.Required;
+			select DecoratorType.Optional;
+
+		public static readonly Parser<DecoratorType> FieldType =
+			from fieldType in Required
+				.Or(Optional)
+			select fieldType;
 	}
 
 	public static class LanguageParser
@@ -32,11 +37,6 @@ namespace Decorator.IO.Parser
 			from @whitespace in Parse.WhiteSpace.AtLeastOnce()
 			from name in Parse.AnyChar.Until(Parse.Char(';')).Text()
 			select name;
-
-		public static readonly Parser<DecoratorType> FieldType =
-			from fieldType in DecoratorFieldTypeParsers.Required
-				.Or(DecoratorFieldTypeParsers.Optional)
-			select fieldType;
 
 		public static readonly Parser<Type> CSharpType =
 			null;
@@ -53,7 +53,7 @@ namespace Decorator.IO.Parser
 			from @whitespace2 in Parse.WhiteSpace.Optional()
 			from @closeParenthesis in Parse.Char(')').Optional()
 			from @whitespace3 in Parse.WhiteSpace.AtLeastOnce()
-			from fieldType in FieldType
+			from fieldType in DecoratorFieldTypeParsers.FieldType
 			from @whitespace4 in Parse.WhiteSpace.AtLeastOnce()
 			from csharpType in CSharpType
 			from @whitespace5 in Parse.WhiteSpace.AtLeastOnce()

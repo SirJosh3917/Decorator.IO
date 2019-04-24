@@ -10,25 +10,44 @@ namespace Decorator.IO.Tests
 {
 	public class DecoratorFieldTypeParserTests
 	{
-		[Fact]
-		public void Required()
+		private void Test(Parser<DecoratorType> parser, DecoratorType expected, params string[] values)
 		{
-			DecoratorFieldTypeParsers.Required
-				.Parse("R")
-				.Should().Be(DecoratorType.Required);
+			foreach(var i in values)
+			{
+				parser.Parse(i)
+					.Should().Be(expected);
+			}
 
-			DecoratorFieldTypeParsers.Required
-				.Parse("REQ")
-				.Should().Be(DecoratorType.Required);
-
-			DecoratorFieldTypeParsers.Required
-				.Parse("REQUIRED")
-				.Should().Be(DecoratorType.Required);
-
-			DecoratorFieldTypeParsers.Required
+			parser
 				.TryParse("anythign else")
 				.WasSuccessful
 				.Should().Be(false);
 		}
+
+		[Theory]
+		[InlineData(DecoratorType.Required, "R")]
+		[InlineData(DecoratorType.Optional, "O")]
+		public void Parse(DecoratorType expected, string parse)
+			=> DecoratorFieldTypeParsers.FieldType
+				.Parse(parse)
+				.Should().Be(expected);
+
+		[Fact]
+		public void Required()
+			=> Test
+			(
+				DecoratorFieldTypeParsers.Required,
+				DecoratorType.Required,
+				"R", "REQ", "REQUIRED"
+			);
+
+		[Fact]
+		public void Optional()
+			=> Test
+			(
+				DecoratorFieldTypeParsers.Optional,
+				DecoratorType.Optional,
+				"O", "OPT", "OPTIONAL"
+			);
 	}
 }
