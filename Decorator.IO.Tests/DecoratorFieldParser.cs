@@ -14,7 +14,7 @@ namespace Decorator.IO.Tests
 		[MemberData(nameof(A))]
 		public void ParseField(string data, DecoratorField expected)
 		{
-			var result = LanguageParsers.DecoratorField
+			var result = DecoratorPocoParser.DecoratorField
 				.TryParse(data);
 
 			result.WasSuccessful

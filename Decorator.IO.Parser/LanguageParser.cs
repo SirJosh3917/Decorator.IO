@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Decorator.IO.Parser
 {
-	public static partial class LanguageParsers
+	public static class CoreParser
 	{
 		public static readonly Parser<int> NumberParser =
 			from number in Parse.Digit.AtLeastOnce().Text()
@@ -26,40 +26,5 @@ namespace Decorator.IO.Parser
 			from number in NumberParser.Token()
 			from __ in Parse.Char(')').Optional().Token()
 			select number;
-
-		public static readonly Parser<DecoratorField> DecoratorField =
-			from _ in Parse.Char('|').Once().Token()
-			from number in DecoratorNumber.Token()
-			from fieldType in FieldType.Token()
-			from csharpType in CSharpType.Token()
-			from name in Identifier.Token()
-			select new DecoratorField
-			{
-				Index = number,
-				Type = fieldType,
-				CSharpType = csharpType,
-				Name = name
-			};
-	}
-
-	public class DecoratorClass
-	{
-		public string[] Inherits { get; set; }
-		public string Name { get; set; }
-		public DecoratorField Fields { get; set; }
-	}
-
-	public class DecoratorField
-	{
-		public int Index { get; set; }
-		public FieldType Type { get; set; }
-		public Type CSharpType { get; set; }
-		public string Name { get; set; }
-	}
-
-	public enum FieldType
-	{
-		Required,
-		Optional
 	}
 }

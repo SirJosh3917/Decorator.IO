@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Decorator.IO.Parser
 {
-	public static partial class LanguageParsers
+	public static class CSharpTypes
 	{
 		public static readonly Parser<Type> CSharpInt =
 			from _ in Parse.String("INT")

@@ -17,7 +17,7 @@ namespace Decorator.IO.Tests
 		{
 			expected ??= name;
 
-			var result = LanguageParsers.Identifier
+			var result = CoreParser.Identifier
 				  .TryParse(name);
 
 			result.WasSuccessful

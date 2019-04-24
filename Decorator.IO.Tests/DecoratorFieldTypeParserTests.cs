@@ -28,7 +28,7 @@ namespace Decorator.IO.Tests
 		[InlineData(FieldType.Required, "R")]
 		[InlineData(FieldType.Optional, "O")]
 		public void Parse(FieldType expected, string parse)
-			=> LanguageParsers.FieldType
+			=> DecoratorFieldTypeParsers.FieldType
 				.Parse(parse)
 				.Should().Be(expected);
 
@@ -36,7 +36,7 @@ namespace Decorator.IO.Tests
 		public void Required()
 			=> Test
 			(
-				LanguageParsers.Required,
+				DecoratorFieldTypeParsers.Required,
 				FieldType.Required,
 				"R", "REQ", "REQUIRED"
 			);
@@ -45,7 +45,7 @@ namespace Decorator.IO.Tests
 		public void Optional()
 			=> Test
 			(
-				LanguageParsers.Optional,
+				DecoratorFieldTypeParsers.Optional,
 				FieldType.Optional,
 				"O", "OPT", "OPTIONAL"
 			);

@@ -2,7 +2,7 @@
 
 namespace Decorator.IO.Parser
 {
-	public static partial class LanguageParsers
+	public static class DecoratorFieldTypeParsers
 	{
 		public static readonly Parser<FieldType> Required =
 			from @required in Parse.String("REQUIRED")
