@@ -8,6 +8,7 @@ using Sprache;
 using System.Collections.Generic;
 
 using Xunit;
+
 using DecoratorClass = Decorator.IO.Parser.DecoratorClass;
 
 namespace Decorator.IO.Tests

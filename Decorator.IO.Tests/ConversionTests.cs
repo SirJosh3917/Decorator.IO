@@ -1,8 +1,9 @@
 ﻿using Decorator.IO.Core;
+
 using FluentAssertions;
-using System;
+
 using System.Collections.Generic;
-using System.Text;
+
 using Xunit;
 
 namespace Decorator.IO.Tests
@@ -48,7 +49,7 @@ namespace Decorator.IO.Tests
 			var f = new Core.DecoratorClass
 			{
 				Name = "f",
-				Parents = new []
+				Parents = new[]
 				{
 					d,
 					c
@@ -58,7 +59,7 @@ namespace Decorator.IO.Tests
 			var g = new Core.DecoratorClass
 			{
 				Name = "g",
-				Parents = new []
+				Parents = new[]
 				{
 					d,
 					f

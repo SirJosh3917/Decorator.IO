@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Decorator.IO.Parser
 {
@@ -20,7 +19,7 @@ namespace Decorator.IO.Parser
 		{
 			var classes = new List<Core.DecoratorClass>();
 
-			foreach(var @class in _file.Classes)
+			foreach (var @class in _file.Classes)
 			{
 				classes.Add(Process(@class));
 			}
@@ -59,11 +58,11 @@ namespace Decorator.IO.Parser
 				&& _classes.TryGetValue(x, out var value)
 				&& value != null);
 
-			while(processing.Count > 0)
+			while (processing.Count > 0)
 			{
 				var index = 0;
 
-				for(index = 0; index < processing.Count; index++)
+				for (index = 0; index < processing.Count; index++)
 				{
 					if (!BeingProcessed(processing[index]))
 					{

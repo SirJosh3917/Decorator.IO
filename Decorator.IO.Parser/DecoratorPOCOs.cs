@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Decorator.IO.Parser
+﻿namespace Decorator.IO.Parser
 {
 	public class DecoratorFile
 	{

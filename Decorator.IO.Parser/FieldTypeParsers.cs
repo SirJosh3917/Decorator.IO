@@ -1,4 +1,5 @@
 ﻿using Decorator.IO.Core;
+
 using Sprache;
 
 namespace Decorator.IO.Parser
