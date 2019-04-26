@@ -15,12 +15,12 @@ namespace Decorator.IO.Core
 		/// <summary>
 		/// The parents.
 		/// </summary>
-		public DecoratorClass[] Parents { get; set; }
+		public DecoratorClass[] Parents { get; set; } = new DecoratorClass[0];
 
 		/// <summary>
 		/// The fields it has.
 		/// </summary>
-		public DecoratorField[] Fields { get; set; }
+		public DecoratorField[] Fields { get; set; } = new DecoratorField[0];
 
 		public override string ToString() => $"Class: {Name}\n"
 			+ Fields.Select(x => x.ToString()).Aggregate((a, b) => $"\t{a}\n\t{b}")
