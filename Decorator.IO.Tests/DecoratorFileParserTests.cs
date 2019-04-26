@@ -1,4 +1,5 @@
-﻿using Decorator.IO.Parser;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Parser;
 
 using FluentAssertions;
 
@@ -7,6 +8,7 @@ using Sprache;
 using System.Collections.Generic;
 
 using Xunit;
+using DecoratorClass = Decorator.IO.Parser.DecoratorClass;
 
 namespace Decorator.IO.Tests
 {
@@ -14,7 +16,7 @@ namespace Decorator.IO.Tests
 	{
 		[Theory]
 		[MemberData(nameof(Source))]
-		public void ParsesClass(string source, DecoratorFile expected)
+		public void ParsesClass(string source, IO.Parser.DecoratorFile expected)
 		{
 			var result = DecoratorFileParser.FileParser
 				.TryParse(source);
@@ -36,7 +38,7 @@ test1 [parent]:
 
 test2:
 | 1 O S b",
-				new DecoratorFile
+				new IO.Parser.DecoratorFile
 				{
 					Namespace = "my_app",
 					Classes = new DecoratorClass[]
@@ -50,8 +52,8 @@ test2:
 								new DecoratorField
 								{
 									Index = 0,
-									Type = FieldType.Required,
-									CSharpType = typeof(int),
+									Modifier = Modifier.Required,
+									Type = typeof(int),
 									Name = "a"
 								}
 							}
@@ -64,8 +66,8 @@ test2:
 								new DecoratorField
 								{
 									Index = 1,
-									Type = FieldType.Optional,
-									CSharpType = typeof(string),
+									Modifier = Modifier.Optional,
+									Type = typeof(string),
 									Name = "b"
 								}
 							}

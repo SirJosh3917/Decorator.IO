@@ -1,4 +1,5 @@
-﻿using Decorator.IO.Parser;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Parser;
 
 using FluentAssertions;
 
@@ -35,8 +36,8 @@ namespace Decorator.IO.Tests
 				new DecoratorField
 				{
 					Index = 0,
-					Type = FieldType.Required,
-					CSharpType = typeof(int),
+					Type = typeof(int),
+					Modifier = Modifier.Required,
 					Name = "some_thing"
 				}
 			};

@@ -1,4 +1,5 @@
-﻿using Decorator.IO.Parser;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Parser;
 
 using FluentAssertions;
 
@@ -8,9 +9,9 @@ using Xunit;
 
 namespace Decorator.IO.Tests
 {
-	public class FieldTypeParserTests
+	public class ModifierParserTests
 	{
-		private void Test(Parser<FieldType> parser, FieldType expected, params string[] values)
+		private void Test(Parser<Modifier> parser, Modifier expected, params string[] values)
 		{
 			foreach (var i in values)
 			{
@@ -25,10 +26,10 @@ namespace Decorator.IO.Tests
 		}
 
 		[Theory]
-		[InlineData(FieldType.Required, "R")]
-		[InlineData(FieldType.Optional, "O")]
-		public void Parse(FieldType expected, string parse)
-			=> DecoratorFieldTypeParsers.FieldType
+		[InlineData(Modifier.Required, "R")]
+		[InlineData(Modifier.Optional, "O")]
+		public void Parse(Modifier expected, string parse)
+			=> DecoratorModifierParsers.FieldType
 				.Parse(parse)
 				.Should().Be(expected);
 
@@ -36,8 +37,8 @@ namespace Decorator.IO.Tests
 		public void Required()
 			=> Test
 			(
-				DecoratorFieldTypeParsers.Required,
-				FieldType.Required,
+				DecoratorModifierParsers.Required,
+				Modifier.Required,
 				"R", "REQ", "REQUIRED"
 			);
 
@@ -45,8 +46,8 @@ namespace Decorator.IO.Tests
 		public void Optional()
 			=> Test
 			(
-				DecoratorFieldTypeParsers.Optional,
-				FieldType.Optional,
+				DecoratorModifierParsers.Optional,
+				Modifier.Optional,
 				"O", "OPT", "OPTIONAL"
 			);
 	}

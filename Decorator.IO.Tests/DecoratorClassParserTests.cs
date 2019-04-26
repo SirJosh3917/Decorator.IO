@@ -1,4 +1,5 @@
-﻿using Decorator.IO.Parser;
+﻿using Decorator.IO.Core;
+using Decorator.IO.Parser;
 
 using FluentAssertions;
 
@@ -7,6 +8,7 @@ using Sprache;
 using System.Collections.Generic;
 
 using Xunit;
+using DecoratorClass = Decorator.IO.Parser.DecoratorClass;
 
 namespace Decorator.IO.Tests
 {
@@ -61,7 +63,7 @@ namespace Decorator.IO.Tests
 			{
 				@"test:
 | (0) R I a_field",
-				new DecoratorClass
+				new IO.Parser.DecoratorClass
 				{
 					Name = "test",
 					Fields = new DecoratorField[]
@@ -69,8 +71,8 @@ namespace Decorator.IO.Tests
 						new DecoratorField
 						{
 							Index = 0,
-							Type = FieldType.Required,
-							CSharpType = typeof(int),
+							Modifier = Modifier.Required,
+							Type = typeof(int),
 							Name = "a_field"
 						}
 					}
@@ -82,7 +84,7 @@ namespace Decorator.IO.Tests
 				@"test [parent_a, parent_b]:
 | (0) R I a_field
 | 1 O S b_field",
-				new DecoratorClass
+				new IO.Parser.DecoratorClass
 				{
 					Name = "test",
 					Inherits = new [] { "parent_a", "parent_b" },
@@ -91,15 +93,15 @@ namespace Decorator.IO.Tests
 						new DecoratorField
 						{
 							Index = 0,
-							Type = FieldType.Required,
-							CSharpType = typeof(int),
+							Modifier = Modifier.Required,
+							Type = typeof(int),
 							Name = "a_field"
 						},
 						new DecoratorField
 						{
 							Index = 1,
-							Type = FieldType.Optional,
-							CSharpType = typeof(string),
+							Modifier = Modifier.Optional,
+							Type = typeof(string),
 							Name = "b_field"
 						}
 					}

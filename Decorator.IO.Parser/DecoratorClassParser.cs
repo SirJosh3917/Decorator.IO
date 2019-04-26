@@ -1,4 +1,5 @@
-﻿using Sprache;
+﻿using Decorator.IO.Core;
+using Sprache;
 
 using System.Linq;
 
@@ -9,14 +10,14 @@ namespace Decorator.IO.Parser
 		public static readonly Parser<DecoratorField> DecoratorField =
 			from _ in Parse.Char('|').Once().Token()
 			from number in CoreParser.DecoratorNumber.Token()
-			from fieldType in DecoratorFieldTypeParsers.FieldType.Token()
+			from Modifier in DecoratorModifierParsers.FieldType.Token()
 			from csharpType in CSharpTypes.CSharpType.Token()
 			from name in CoreParser.Identifier.Token()
 			select new DecoratorField
 			{
 				Index = number,
-				Type = fieldType,
-				CSharpType = csharpType,
+				Type = csharpType,
+				Modifier = Modifier,
 				Name = name
 			};
 
