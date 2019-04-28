@@ -1,6 +1,5 @@
 ﻿using Decorator.IO.Core;
 
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using System.Collections.Generic;
@@ -12,11 +11,10 @@ namespace Decorator.IO.Providers.CSharp
 	{
 		public CompilationUnitSyntax BuildInterface(DecoratorClass decoratorClass)
 		{
-			return CSharpSyntaxTree.ParseText($@"public interface I{decoratorClass.Name} {InheritParents(decoratorClass.Parents.Select(x => x.Name))}
+			return $@"public interface I{decoratorClass.Name} {InheritParents(decoratorClass.Parents.Select(x => x.Name))}
 {{
 	{DrawFields(NotInheritedFields(decoratorClass))}
-}}", CSharpParseOptions.Default)
-				.GetCompilationUnitRoot();
+}}".AsCompilationUnitSyntax();
 		}
 
 		private DecoratorField[] ConcatenateFieldsOfParents(IEnumerable<DecoratorClass> decoratorClasses)
