@@ -19,6 +19,17 @@ namespace Decorator.IO.Providers.CSharp
 			.ChildNodes()
 			.OfType<MemberDeclarationSyntax>();
 
+		public static string ToPropertyStrings(this IEnumerable<DecoratorField> fields, bool withPublic)
+		{
+			if (!fields.Any())
+			{
+				return "";
+			}
+
+			return fields.Select(x => $"{(withPublic ? "public " : "")} {x.Type} {x.Name} {{ get; set; }}")
+				.Aggregate((a, b) => $"{a}\n{b}");
+		}
+
 		// TODO: make this more versatile by replacing Pascalize calls with
 		// a Func<string, string> parameter to do the casing for us
 		public static void ApplyCSharpCasing(this DecoratorFile @in)
