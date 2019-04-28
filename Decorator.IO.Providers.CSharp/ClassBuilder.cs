@@ -1,10 +1,10 @@
 ﻿using Decorator.IO.Core;
+
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System;
+
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace Decorator.IO.Providers.CSharp
 {
@@ -14,6 +14,7 @@ namespace Decorator.IO.Providers.CSharp
 		{
 			public bool Equals(DecoratorField x, DecoratorField y)
 				=> x.Name == y.Name;
+
 			public int GetHashCode(DecoratorField obj) => obj.Name.GetHashCode();
 		}
 
