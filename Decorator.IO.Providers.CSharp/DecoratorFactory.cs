@@ -12,7 +12,7 @@ namespace Decorator.IO.Providers.CSharp
 		public static IEnumerable<MemberDeclarationSyntax> BuildClass(DecoratorClass[] classes)
 		=> $@"public static class {Config.DecoratorFactory}
 {{
-	public static object[] Serialize(this {Config.InterfaceDecoratorObject} unsupportedDecoratorObject)
+	public static object[] {Config.InterfaceSerializeName}(this {Config.InterfaceDecoratorObject} unsupportedDecoratorObject)
 	{{
 		throw new System.NotSupportedException(""Please attempt to look for the correct overload"");
 	}}
