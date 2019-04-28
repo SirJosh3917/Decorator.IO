@@ -55,9 +55,16 @@ namespace Decorator.IO.Providers.CSharp
 							(
 								file
 									.Classes
-									.Select(decoratorClass => new ClassBuilder().BuildInterface(decoratorClass))
+									.Select(decoratorClass => new InterfaceBuilder().BuildInterface(decoratorClass))
 									.Select(compilationUnit => compilationUnit.ChildNodes().First())
 									.Cast<MemberDeclarationSyntax>()
+								.Concat
+								(
+									file.Classes
+										.Select(decoratorClass => new ClassBuilder().BuildClass(decoratorClass))
+										.Select(compilationUnit => compilationUnit.ChildNodes().First())
+										.Cast<MemberDeclarationSyntax>()
+								)
 							)
 						)
 					)

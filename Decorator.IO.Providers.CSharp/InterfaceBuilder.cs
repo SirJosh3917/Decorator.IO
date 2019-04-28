@@ -12,7 +12,7 @@ namespace Decorator.IO.Providers.CSharp
 	{
 		public CompilationUnitSyntax BuildInterface(DecoratorClass decoratorClass)
 		{
-			return CSharpSyntaxTree.ParseText($@"public interface I{decoratorClass.Name} {InheritParents(decoratorClass.Parents)}
+			return CSharpSyntaxTree.ParseText($@"public interface I{decoratorClass.Name} {InheritParents(decoratorClass.Parents.Select(x => x.Name))}
 {{
 	{DrawFields(NotInheritedFields(decoratorClass))}
 }}", CSharpParseOptions.Default)
@@ -38,9 +38,16 @@ namespace Decorator.IO.Providers.CSharp
 		private string DrawFields(DecoratorField[] fields)
 			=> fields.Length == 0 ? "" : fields.Select(x => $"public {x.Type} {x.Name} {{ get; set; }}").Aggregate((a, b) => $"{a}\n{b}");
 
-		private string InheritParents(DecoratorClass[] parents)
-			=> parents.Length > 0
-				? ": " + parents.Select(x => $"I{x.Name}").Aggregate((a, b) => $"{a}, {b}")
-				: "";
+		private string InheritParents(IEnumerable<string> parents)
+		{
+			if (parents.Any())
+			{
+				return ": " + parents.Select(x => $"I{x}")
+					.Append(Config.DecoratorName)
+					.Aggregate((a, b) => $"{a}, {b}");
+			}
+
+			return $": {Config.DecoratorName}";
+		}
 	}
 }
