@@ -29,6 +29,7 @@ namespace Decorator.IO.Providers.CSharp
 							(
 								file.Classes.SelectMany(InterfaceBuilder.BuildInterface)
 								.Concat(file.Classes.SelectMany(ClassBuilder.BuildClass))
+								.Concat(DecoratorExtensionsGenerator.Create(file.Classes.Select(x => x.Name)))
 								.Concat(DecoratorObject.Create())
 							)
 						)

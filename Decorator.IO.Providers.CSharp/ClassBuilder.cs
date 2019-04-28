@@ -14,7 +14,7 @@ namespace Decorator.IO.Providers.CSharp
 	{decoratorClass.ConcatenateFieldsOfParents().ToPropertyStrings(true)}
 	public object[] Serialize()
 	{{
-		return DecoratorObject.Serialize(this);
+		return this.SerializeAs{decoratorClass.Name}();
 	}}
 }}"
 			.AsCompilationUnitSyntax()

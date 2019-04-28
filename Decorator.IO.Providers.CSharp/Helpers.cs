@@ -64,7 +64,10 @@ namespace Decorator.IO.Providers.CSharp
 		{
 			if (parents.Any())
 			{
-				return $" : {parents.Select(x => $"I{x}").Append(Config.DecoratorName).Aggregate((a, b) => $"{a},{b}")}";
+				return " : "
+					+ parents.Select(x => $"I{x}")
+					.Append(Config.DecoratorName)
+					.Aggregate((a, b) => $"{a},{b}");
 			}
 
 			return " : " + Config.DecoratorName;
