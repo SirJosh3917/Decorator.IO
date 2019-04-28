@@ -17,17 +17,15 @@ namespace Decorator.IO.Parser
 
 		public Core.DecoratorFile Process()
 		{
-			var classes = new List<Core.DecoratorClass>();
-
 			foreach (var @class in _file.Classes)
 			{
-				classes.Add(Process(@class));
+				Process(@class);
 			}
 
 			return new Core.DecoratorFile
 			{
 				Namespace = _file.Namespace,
-				Classes = classes.ToArray(),
+				Classes = _classes.Values.ToArray(),
 			};
 		}
 
@@ -41,6 +39,12 @@ namespace Decorator.IO.Parser
 					Fields = current.Fields,
 					Parents = new Core.DecoratorClass[0]
 				};
+			}
+
+			if (_classes.TryGetValue(current.Name, out var result)
+				&& result != null)
+			{
+				return result;
 			}
 
 			if (BeingProcessed(current.Name))

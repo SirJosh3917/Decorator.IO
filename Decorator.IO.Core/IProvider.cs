@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 
 namespace Decorator.IO.Core
 {
@@ -12,6 +13,6 @@ namespace Decorator.IO.Core
 		/// </summary>
 		/// <param name="outputStream">The output stream.</param>
 		/// <param name="file">The file.</param>
-		void Provide(Stream outputStream, DecoratorFile file);
+		Task Provide(Stream outputStream, DecoratorFile file);
 	}
 }

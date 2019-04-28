@@ -22,10 +22,24 @@ namespace Decorator.IO.Parser
 				.Or(Parse.String("S"))
 			select typeof(string);
 
+		public static readonly Parser<Type> CSharpFloat =
+			from _ in Parse.String("FLOAT")
+				.Or(Parse.String("FLT"))
+				.Or(Parse.String("F"))
+			select typeof(float);
+
+		public static readonly Parser<Type> CSharpBoolean =
+			from _ in Parse.String("BOOLEAN")
+				.Or(Parse.String("BOOL"))
+				.Or(Parse.String("B"))
+			select typeof(bool);
+
 		public static readonly Parser<Type> CSharpType =
 			from type in CSharpInt
 				.Or(CSharpString)
 				.Or(CSharpUInt)
+				.Or(CSharpFloat)
+				.Or(CSharpBoolean)
 			select type;
 	}
 }
