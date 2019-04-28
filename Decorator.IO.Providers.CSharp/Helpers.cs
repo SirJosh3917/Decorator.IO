@@ -4,6 +4,7 @@ using Humanizer;
 
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+
 using System.Collections.Generic;
 using System.Linq;
 
@@ -47,6 +48,26 @@ namespace Decorator.IO.Providers.CSharp
 			{
 				i.Name = i.Name.Pascalize();
 			}
+		}
+
+		public static IEnumerable<DecoratorField> UniqueFields(this DecoratorClass decoratorClass)
+		{
+			var all = decoratorClass.Parents.ConcatenateFieldsOfParents()
+				.Select(x => x.Name)
+				.ToArray();
+
+			return decoratorClass.Fields
+				.Where(x => !all.Contains(x.Name));
+		}
+
+		public static string InterfaceInherits(this IEnumerable<string> parents)
+		{
+			if (parents.Any())
+			{
+				return $" : {parents.Select(x => $"I{x}").Append(Config.DecoratorName).Aggregate((a, b) => $"{a},{b}")}";
+			}
+
+			return " : " + Config.DecoratorName;
 		}
 
 		private static IEqualityComparer<DecoratorField> _equalityComparer = new DummyEqualityComparer();
