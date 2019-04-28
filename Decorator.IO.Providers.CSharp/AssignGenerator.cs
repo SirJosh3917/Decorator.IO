@@ -1,7 +1,4 @@
 ﻿using Decorator.IO.Core;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Decorator.IO.Providers.CSharp
 {
@@ -16,7 +13,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string Assign(DecoratorField decoratorField, string objectContext, string counterName)
 		{
-			return $@"{objectContext}{decoratorField.Name};
+			return $@"{Config.ArrayName}[{counterName}] = {objectContext}{decoratorField.Name};
 {counterName}++;";
 		}
 	}

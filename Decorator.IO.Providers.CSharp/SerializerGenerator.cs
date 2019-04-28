@@ -1,5 +1,5 @@
 ﻿using Decorator.IO.Core;
-using System;
+
 using System.Linq;
 
 namespace Decorator.IO.Providers.CSharp
@@ -26,7 +26,6 @@ namespace Decorator.IO.Providers.CSharp
 int counter = {decoratorClass.Fields.OrderBy(x => x.Index).First().Index};
 {
 				decoratorClass.Fields.Select(x => generator.Assign(x, $"{Config.ObjectName}.", "counter"))
-					.Select(x => $"{Config.ArrayName}[counter] = {x}")
 					.NewlineAggregate()
 }
 return array;";
