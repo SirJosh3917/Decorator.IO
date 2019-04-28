@@ -1,5 +1,6 @@
 ﻿using Decorator.IO.Core;
-
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Decorator.IO.Providers.CSharp
