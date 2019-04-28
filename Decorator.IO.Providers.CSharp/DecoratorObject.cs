@@ -7,7 +7,7 @@ namespace Decorator.IO.Providers.CSharp
 	public static class DecoratorObject
 	{
 		public static IEnumerable<MemberDeclarationSyntax> Create()
-			=> $@"public interface {Config.DecoratorName}
+			=> $@"public interface {Config.InterfaceDecoratorObject}
 {{
 	object[] Serialize();
 }}"

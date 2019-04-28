@@ -1,5 +1,4 @@
-﻿using Decorator.IO.Core;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +12,7 @@ namespace Decorator.IO.Providers.CSharp
 {{
 	{decoratorClassNames.Select(x => $@"public static object[] SerializeAs{x}(this I{x} obj)
 {{
-	return DecoratorObject.Serialize(obj);
+	return {Config.DecoratorFactory}.Serialize(obj);
 }}")
 				.NewlineAggregate()}
 }}"

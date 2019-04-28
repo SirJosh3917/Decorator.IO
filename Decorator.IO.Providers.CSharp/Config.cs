@@ -2,6 +2,7 @@
 {
 	public static class Config
 	{
-		public const string DecoratorName = "IDecoratorObject";
+		public const string InterfaceDecoratorObject = "IDecoratorObject";
+		public const string DecoratorFactory = "DecoratorFactory";
 	}
 }

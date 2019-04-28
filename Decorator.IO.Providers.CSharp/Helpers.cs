@@ -69,11 +69,11 @@ namespace Decorator.IO.Providers.CSharp
 			{
 				return " : "
 					+ parents.Select(x => $"I{x}")
-					.Append(Config.DecoratorName)
+					.Append(Config.InterfaceDecoratorObject)
 					.Aggregate((a, b) => $"{a},{b}");
 			}
 
-			return " : " + Config.DecoratorName;
+			return " : " + Config.InterfaceDecoratorObject;
 		}
 
 		private static IEqualityComparer<DecoratorField> _equalityComparer = new DummyEqualityComparer();
