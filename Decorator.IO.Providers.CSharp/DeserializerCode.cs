@@ -24,8 +24,16 @@ namespace Decorator.IO.Providers.CSharp
 
 			return $@"{decoratorClass.Name} {Config.ObjectName} = new {decoratorClass.Name}();
 int index = 0;
-{fields.Select(x => desGen.GenerateCode(x, Config.ObjectName, "index"))
-.NewlineAggregate()}
+{
+				fields.Select(x => desGen.GenerateCode(x, Config.ObjectName, "index"))
+					.Select(x => $@"if (index >= {Config.ArrayName}.Length)
+{{
+	throw new System.Exception(""not a big enough array"");
+}}
+
+{x}")
+					.NewlineAggregate()
+}
 return {Config.ObjectName};";
 		}
 	}

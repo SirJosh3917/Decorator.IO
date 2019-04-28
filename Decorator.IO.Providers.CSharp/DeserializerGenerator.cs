@@ -10,7 +10,7 @@ namespace Decorator.IO.Providers.CSharp
 		private int _i;
 
 		public string Name()
-			=> $"{_i++}";
+			=> $"gen{_i++}";
 	}
 
 	public class DeserializerGenerator
@@ -36,7 +36,25 @@ namespace Decorator.IO.Providers.CSharp
 		{
 			var fields = _classContext.AllFieldsOf();
 
-			return "// test R";
+			var index = Array.IndexOf(fields, decoratorField);
+
+			var cast = _nameGenerator.Name();
+
+			// otherwise increment counter by the amount we need to advance
+			int needAdvance = 0;
+
+			if (index + 1 < fields.Length)
+			{
+				needAdvance = fields[index + 1].Index - fields[index].Index;
+			}
+
+			return $@"if (!({Config.ArrayName}[{indexName}] is {decoratorField.Type} {cast}))
+{{
+	throw new System.Exception(""todo: make try deserialize alternative and abstract the heck outta crud lol"");
+}}
+
+{objectName}.{decoratorField.Name} = {cast};
+{indexName} += {needAdvance};";
 		}
 
 		public string DeserializeOptional(DecoratorField decoratorField, string objectName, string indexName)

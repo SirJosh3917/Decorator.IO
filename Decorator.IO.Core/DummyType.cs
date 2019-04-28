@@ -84,5 +84,7 @@ namespace Decorator.IO.Core
 		protected override bool IsPointerImpl() => throw new NotImplementedException();
 
 		protected override bool IsPrimitiveImpl() => throw new NotImplementedException();
+
+		protected override bool IsValueTypeImpl() => false;
 	}
 }
