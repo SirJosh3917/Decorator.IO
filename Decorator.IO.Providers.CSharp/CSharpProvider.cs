@@ -65,6 +65,10 @@ namespace Decorator.IO.Providers.CSharp
 										.Select(compilationUnit => compilationUnit.ChildNodes().First())
 										.Cast<MemberDeclarationSyntax>()
 								)
+								.Append
+								(
+									DecoratorObject.Create()
+								)
 							)
 						)
 					)

@@ -36,7 +36,7 @@ namespace Decorator.IO.Providers.CSharp
 		}
 
 		private string DrawFields(DecoratorField[] fields)
-			=> fields.Length == 0 ? "" : fields.Select(x => $"public {x.Type} {x.Name} {{ get; set; }}").Aggregate((a, b) => $"{a}\n{b}");
+			=> fields.Length == 0 ? "" : fields.Select(x => $"{x.Type} {x.Name} {{ get; set; }}").Aggregate((a, b) => $"{a}\n{b}");
 
 		private string InheritParents(IEnumerable<string> parents)
 		{
