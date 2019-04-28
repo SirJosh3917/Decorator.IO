@@ -1,9 +1,8 @@
 ﻿using Decorator.IO.Core;
+
 using Sprache;
 
 using System;
-using System.Globalization;
-using System.Reflection;
 
 namespace Decorator.IO.Parser
 {
