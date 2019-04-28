@@ -17,14 +17,9 @@ namespace Decorator.IO.Providers.CSharp
 			.AsCompilationUnitSyntax()
 			.AsMemberDeclarationSyntaxes();
 
-		private static DecoratorField[] ConcatenateFieldsOfParents(IEnumerable<DecoratorClass> decoratorClasses)
-			=> decoratorClasses.SelectMany(x => x.Fields)
-			.Concat(decoratorClasses.Select(x => x.Parents).SelectMany(ConcatenateFieldsOfParents))
-			.ToArray();
-
 		private static DecoratorField[] NotInheritedFields(DecoratorClass decoratorClass)
 		{
-			var all = ConcatenateFieldsOfParents(decoratorClass.Parents)
+			var all = decoratorClass.Parents.ConcatenateFieldsOfParents()
 				.Select(x => x.Name)
 				.ToArray();
 

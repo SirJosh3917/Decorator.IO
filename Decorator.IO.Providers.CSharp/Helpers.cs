@@ -48,5 +48,24 @@ namespace Decorator.IO.Providers.CSharp
 				i.Name = i.Name.Pascalize();
 			}
 		}
+
+		private static IEqualityComparer<DecoratorField> _equalityComparer = new DummyEqualityComparer();
+
+		private class DummyEqualityComparer : IEqualityComparer<DecoratorField>
+		{
+			public bool Equals(DecoratorField x, DecoratorField y)
+				=> x.Name == y.Name;
+
+			public int GetHashCode(DecoratorField obj) => obj.Name.GetHashCode();
+		}
+
+		public static DecoratorField[] ConcatenateFieldsOfParents(this DecoratorClass decoratorClass)
+			=> new[] { decoratorClass }.ConcatenateFieldsOfParents();
+
+		public static DecoratorField[] ConcatenateFieldsOfParents(this IEnumerable<DecoratorClass> decoratorClasses)
+			=> decoratorClasses.SelectMany(x => x.Fields)
+			.Concat(decoratorClasses.Select(x => x.Parents).SelectMany(ConcatenateFieldsOfParents))
+			.Distinct(_equalityComparer)
+			.ToArray();
 	}
 }
