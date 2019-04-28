@@ -24,16 +24,18 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string AssignRequired(DecoratorField decoratorField, string objectContext, string counterName)
 		{
-			var index = Array.IndexOf(_classContext.Fields, decoratorField);
+			var fields = _classContext.AllFieldsOf();
+
+			var index = Array.IndexOf(fields, decoratorField);
 
 			// if there's none after us we don't need to advance current
-			if (index + 1 >= _classContext.Fields.Length)
+			if (index + 1 >= fields.Length)
 			{
 				return AssignCurrent();
 			}
 
 			// otherwise increment counter by the amount we need to advance
-			int needAdvance = _classContext.Fields[index + 1].Index - _classContext.Fields[index].Index;
+			int needAdvance = fields[index + 1].Index - fields[index].Index;
 
 			return $@"{AssignCurrent()}
 {counterName} += {needAdvance};";

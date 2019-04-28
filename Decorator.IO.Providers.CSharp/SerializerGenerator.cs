@@ -14,6 +14,8 @@ namespace Decorator.IO.Providers.CSharp
 			_context = context;
 		}
 
+		// TODO: having to do decoratorClass.AllFieldsOf is *very* messy and i don't like it not one bit
+
 		public string Generate(DecoratorClass decoratorClass)
 		{
 			if (decoratorClass.Fields.Length == 0)
@@ -21,12 +23,14 @@ namespace Decorator.IO.Providers.CSharp
 				return $@"return new object[0];";
 			}
 
+			var fields = decoratorClass.AllFieldsOf();
+
 			var generator = new AssignGenerator(_context, decoratorClass);
 
 			return $@"object[] {Config.ArrayName} = new object[{GenerateSize(decoratorClass)}];
-int counter = {decoratorClass.Fields.OrderBy(x => x.Index).First().Index};
+int counter = {fields.OrderBy(x => x.Index).First().Index};
 {
-				decoratorClass.Fields.Select(x => generator.Assign(x, $"{Config.ObjectName}.", "counter"))
+				fields.Select(x => generator.Assign(x, $"{Config.ObjectName}.", "counter"))
 					.NewlineAggregate()
 }
 return array;";
@@ -35,8 +39,9 @@ return array;";
 		public string GenerateSize(DecoratorClass decoratorClass)
 		{
 			var generator = new SizeGenerator(_context, decoratorClass);
+			var fields = decoratorClass.AllFieldsOf();
 
-			return $@"(0 {decoratorClass.Fields.Select(x => generator.GenerateSize(x, $"{Config.ObjectName}."))
+			return $@"(0 {fields.Select(x => generator.GenerateSize(x, $"{Config.ObjectName}."))
 				.Aggregate((a, b) => a + b)})";
 		}
 	}

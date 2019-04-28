@@ -1,7 +1,6 @@
 ﻿using Decorator.IO.Core;
 using Decorator.IO.Parser;
 using Decorator.IO.Providers.CSharp;
-
 using System.IO;
 using System.Threading.Tasks;
 

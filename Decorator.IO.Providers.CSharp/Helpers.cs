@@ -101,12 +101,20 @@ namespace Decorator.IO.Providers.CSharp
 			public int GetHashCode(DecoratorField obj) => obj.Name.GetHashCode();
 		}
 
+		public static DecoratorField[] AllFieldsOf(this DecoratorClass decoratorClass)
+			=> decoratorClass.ConcatenateFieldsOfParents()
+			.OrderBy(x => x.Index)
+			.ToArray();
+
 		public static DecoratorField[] ConcatenateFieldsOfParents(this DecoratorClass decoratorClass)
 			=> new[] { decoratorClass }.ConcatenateFieldsOfParents();
 
 		public static DecoratorField[] ConcatenateFieldsOfParents(this IEnumerable<DecoratorClass> decoratorClasses)
 			=> decoratorClasses.SelectMany(x => x.Fields)
-			.Concat(decoratorClasses.Select(x => x.Parents).SelectMany(ConcatenateFieldsOfParents))
+			.Concat(decoratorClasses.Select(x => x.Parents).SelectMany(ConcatenateFieldsOfParents)
+				// prioritize the original enumerable classes before the others
+				// prevents distinct from removing the primary fields we want
+				.Where(x => !decoratorClasses.SelectMany(y => y.Fields).Contains(x)))
 			.Distinct(_equalityComparer)
 			.ToArray();
 	}

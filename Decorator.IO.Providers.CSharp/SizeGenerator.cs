@@ -24,7 +24,9 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string SizeRequired(DecoratorField decoratorField, string objectContext)
 		{
-			var index = Array.IndexOf(_classContext.Fields, decoratorField);
+			var fields = _classContext.AllFieldsOf();
+
+			var index = Array.IndexOf(fields, decoratorField);
 
 			// if there's none before us just return our index
 			if (index - 1 < 0)
@@ -33,7 +35,7 @@ namespace Decorator.IO.Providers.CSharp
 			}
 
 			// otherwise increment counter by the amount we need to advance
-			int needAdvance = _classContext.Fields[index].Index - _classContext.Fields[index - 1].Index;
+			int needAdvance = fields[index].Index - fields[index - 1].Index;
 
 			return $"+ {needAdvance}";
 		}
