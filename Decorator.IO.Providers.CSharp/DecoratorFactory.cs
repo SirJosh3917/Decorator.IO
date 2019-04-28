@@ -33,10 +33,11 @@ namespace Decorator.IO.Providers.CSharp
 		public string WriteFunctionCode(DecoratorClass decoratorClass)
 		{
 			var serializerCode = new SerializerCode(_context);
+			var deserializerCode = new DeserializerCode(_context);
 
 			return $@"public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeAsName(decoratorClass.Name)}(object[] {Config.ArrayName})
 {{
-	return default;
+	{deserializerCode.Generate(decoratorClass)}
 }}
 
 public static object[] {Config.SerializeAsName(decoratorClass.Name)}({Config.InterfaceName(decoratorClass.Name)} {Config.ObjectName})

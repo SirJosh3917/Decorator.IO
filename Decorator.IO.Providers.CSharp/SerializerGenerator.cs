@@ -18,12 +18,12 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string Generate(DecoratorClass decoratorClass)
 		{
-			if (decoratorClass.Fields.Length == 0)
-			{
-				return $@"return new object[0];";
-			}
-
 			var fields = decoratorClass.AllFieldsOf();
+
+			if (fields.Length == 0)
+			{
+				return $"return new object[0];";
+			}
 
 			var generator = new AssignGenerator(_context, decoratorClass);
 
