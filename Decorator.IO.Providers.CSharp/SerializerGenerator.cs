@@ -16,7 +16,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string Generate(DecoratorClass decoratorClass)
 		{
-			var generator = new AssignGenerator(_context);
+			var generator = new AssignGenerator(_context, decoratorClass);
 
 			if (decoratorClass.Fields.Length == 0)
 			{
