@@ -1,9 +1,11 @@
 ﻿using Decorator.IO.Core;
+
 using Humanizer;
+
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Collections.Concurrent;
+
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -27,7 +29,7 @@ namespace Decorator.IO.Providers.CSharp
 				x.Name = x.Name.Pascalize();
 			}
 
-			foreach(var i in @in.Classes.SelectMany(x => x.Fields))
+			foreach (var i in @in.Classes.SelectMany(x => x.Fields))
 			{
 				i.Name = i.Name.Pascalize();
 			}
