@@ -7,9 +7,16 @@ using System.Linq;
 
 namespace Decorator.IO.Providers.CSharp
 {
-	public static class DecoratorFactory
+	public class DecoratorFactory
 	{
-		public static IEnumerable<MemberDeclarationSyntax> BuildClass(DecoratorClass[] classes)
+		private readonly DecoratorFile _context;
+
+		public DecoratorFactory(DecoratorFile context)
+		{
+			_context = context;
+		}
+
+		public IEnumerable<MemberDeclarationSyntax> BuildClass(DecoratorClass[] classes)
 		=> $@"public static class {Config.DecoratorFactory}
 {{
 	public static object[] {Config.SerializeName}(this {Config.InterfaceDecoratorObject} unsupportedDecoratorObject)
@@ -23,16 +30,18 @@ namespace Decorator.IO.Providers.CSharp
 			.AsCompilationUnitSyntax()
 			.AsMemberDeclarationSyntaxes();
 
-		public static string WriteFunctionCode(DecoratorClass decoratorClass)
+		public string WriteFunctionCode(DecoratorClass decoratorClass)
 		{
-			return $@"public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeAsName(decoratorClass.Name)}(object[] array)
+			var serializerCode = new SerializerCode(_context);
+
+			return $@"public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeAsName(decoratorClass.Name)}(object[] {Config.ArrayName})
 {{
 	return default;
 }}
 
-public static object[] {Config.SerializeAsName(decoratorClass.Name)}({Config.InterfaceName(decoratorClass.Name)} obj)
+public static object[] {Config.SerializeAsName(decoratorClass.Name)}({Config.InterfaceName(decoratorClass.Name)} {Config.ObjectName})
 {{
-	return default;
+	{serializerCode.Generate(decoratorClass)}
 }}
 ";
 		}

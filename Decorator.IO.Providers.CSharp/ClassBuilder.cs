@@ -17,9 +17,9 @@ namespace Decorator.IO.Providers.CSharp
 		return this.{Config.SerializeAsName(decoratorClass.Name)}();
 	}}
 
-	public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeName}(object[] array)
+	public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeName}(object[] {Config.ArrayName})
 	{{
-		return {Config.DecoratorFactory}.{Config.DeserializeAsName(decoratorClass.Name)}(array);
+		return {Config.DecoratorFactory}.{Config.DeserializeAsName(decoratorClass.Name)}({Config.ArrayName});
 	}}
 }}"
 			.AsCompilationUnitSyntax()
