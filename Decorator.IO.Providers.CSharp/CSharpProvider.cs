@@ -31,6 +31,7 @@ namespace Decorator.IO.Providers.CSharp
 								.Concat(file.Classes.SelectMany(ClassBuilder.BuildClass))
 								.Concat(DecoratorExtensionsGenerator.Create(file.Classes.Select(x => x.Name)))
 								.Concat(DecoratorObject.Create())
+								.Concat(DecoratorFactory.BuildClass(file.Classes))
 							)
 						)
 					)

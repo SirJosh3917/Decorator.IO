@@ -15,7 +15,7 @@ namespace Decorator.IO.Providers.CSharp
 {{
 	return DecoratorObject.Serialize(obj);
 }}")
-				.Aggregate((a, b) => $"{a}\n{b}")}
+				.NewlineAggregate()}
 }}"
 			.AsCompilationUnitSyntax()
 			.AsMemberDeclarationSyntaxes();

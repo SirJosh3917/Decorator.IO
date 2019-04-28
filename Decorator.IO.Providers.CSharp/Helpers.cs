@@ -20,6 +20,9 @@ namespace Decorator.IO.Providers.CSharp
 			.ChildNodes()
 			.OfType<MemberDeclarationSyntax>();
 
+		public static string NewlineAggregate(this IEnumerable<string> @in)
+			=> @in.Aggregate((a, b) => $"{a}\n{b}");
+
 		public static string ToPropertyStrings(this IEnumerable<DecoratorField> fields, bool withPublic)
 		{
 			if (!fields.Any())
@@ -28,7 +31,7 @@ namespace Decorator.IO.Providers.CSharp
 			}
 
 			return fields.Select(x => $"{(withPublic ? "public " : "")} {x.Type} {x.Name} {{ get; set; }}")
-				.Aggregate((a, b) => $"{a}\n{b}");
+				.NewlineAggregate();
 		}
 
 		// TODO: make this more versatile by replacing Pascalize calls with
