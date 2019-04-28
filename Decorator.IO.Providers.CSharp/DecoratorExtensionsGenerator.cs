@@ -12,7 +12,12 @@ namespace Decorator.IO.Providers.CSharp
 {{
 	{decoratorClassNames.Select(x => $@"public static object[] {Config.SerializeAsName(x)}(this I{x} obj)
 {{
-	return {Config.DecoratorFactory}.{Config.InterfaceSerializeName}(obj);
+	return {Config.DecoratorFactory}.{Config.SerializeAsName(x)}(obj);
+}}
+
+public static I{x} {Config.DeserializeAsName(x)}(this object[] array)
+{{
+	return {Config.DecoratorFactory}.{Config.DeserializeAsName(x)}(array);
 }}")
 				.NewlineAggregate()}
 }}"

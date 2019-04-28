@@ -12,9 +12,14 @@ namespace Decorator.IO.Providers.CSharp
 			=> $@"public class {decoratorClass.Name} : I{decoratorClass.Name}
 {{
 	{decoratorClass.ConcatenateFieldsOfParents().ToPropertyStrings(true)}
-	public object[] {Config.InterfaceSerializeName}()
+	public object[] {Config.SerializeName}()
 	{{
 		return this.{Config.SerializeAsName(decoratorClass.Name)}();
+	}}
+
+	public static I{decoratorClass.Name} {Config.DeserializeName}(object[] array)
+	{{
+		return {Config.DecoratorFactory}.{Config.DeserializeAsName(decoratorClass.Name)}(array);
 	}}
 }}"
 			.AsCompilationUnitSyntax()

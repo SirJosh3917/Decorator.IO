@@ -12,19 +12,29 @@ namespace Decorator.IO.Providers.CSharp
 		public static IEnumerable<MemberDeclarationSyntax> BuildClass(DecoratorClass[] classes)
 		=> $@"public static class {Config.DecoratorFactory}
 {{
-	public static object[] {Config.InterfaceSerializeName}(this {Config.InterfaceDecoratorObject} unsupportedDecoratorObject)
+	public static object[] {Config.SerializeName}(this {Config.InterfaceDecoratorObject} unsupportedDecoratorObject)
 	{{
+		// TODO: switch statement on the item to check the different types
 		throw new System.NotSupportedException(""Please attempt to look for the correct overload"");
 	}}
 
-	{classes.Select(MakeSerializeFunction).NewlineAggregate()}
+	{classes.Select(WriteFunctionCode).NewlineAggregate()}
 }}"
 			.AsCompilationUnitSyntax()
 			.AsMemberDeclarationSyntaxes();
 
-		public static string MakeSerializeFunction(DecoratorClass decoratorClass)
+		public static string WriteFunctionCode(DecoratorClass decoratorClass)
 		{
-			return "// " + decoratorClass.Name;
+			return $@"public static I{decoratorClass.Name} {Config.DeserializeAsName(decoratorClass.Name)}(object[] array)
+{{
+	return default;
+}}
+
+public static object[] {Config.SerializeAsName(decoratorClass.Name)}(I{decoratorClass.Name} obj)
+{{
+	return default;
+}}
+";
 		}
 	}
 }

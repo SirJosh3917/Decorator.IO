@@ -9,7 +9,7 @@ namespace Decorator.IO.Providers.CSharp
 		public static IEnumerable<MemberDeclarationSyntax> Create()
 			=> $@"public interface {Config.InterfaceDecoratorObject}
 {{
-	object[] {Config.InterfaceSerializeName}();
+	object[] {Config.SerializeName}();
 }}"
 			.AsCompilationUnitSyntax()
 			.AsMemberDeclarationSyntaxes();

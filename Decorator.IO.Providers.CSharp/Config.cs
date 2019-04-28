@@ -4,9 +4,13 @@
 	{
 		public const string InterfaceDecoratorObject = "IDecoratorObject";
 		public const string DecoratorFactory = "DecoratorFactory";
-		public const string InterfaceSerializeName = "Serialize";
+		public const string SerializeName = "Serialize";
+		public const string DeserializeName = "Deserialize";
 
 		public static string SerializeAsName(string name)
-			=> $"SerializeAs{name}";
+			=> $"{SerializeName}As{name}";
+
+		public static string DeserializeAsName(string name)
+			=> $"{DeserializeName}As{name}";
 	}
 }
