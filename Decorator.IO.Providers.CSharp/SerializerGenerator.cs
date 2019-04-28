@@ -16,12 +16,12 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string Generate(DecoratorClass decoratorClass)
 		{
-			var generator = new AssignGenerator(_context, decoratorClass);
-
 			if (decoratorClass.Fields.Length == 0)
 			{
 				return $@"return new object[0];";
 			}
+
+			var generator = new AssignGenerator(_context, decoratorClass);
 
 			return $@"object[] {Config.ArrayName} = new object[{GenerateSize(decoratorClass)}];
 int counter = {decoratorClass.Fields.OrderBy(x => x.Index).First().Index};
@@ -34,7 +34,7 @@ return array;";
 
 		public string GenerateSize(DecoratorClass decoratorClass)
 		{
-			var generator = new SizeGenerator(_context);
+			var generator = new SizeGenerator(_context, decoratorClass);
 
 			return $@"(0 {decoratorClass.Fields.Select(x => generator.GenerateSize(x, $"{Config.ObjectName}."))
 				.Aggregate((a, b) => a + b)})";
