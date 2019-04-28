@@ -27,17 +27,9 @@ namespace Decorator.IO.Providers.CSharp
 						(
 							new SyntaxList<MemberDeclarationSyntax>
 							(
-								file.Classes
-									.SelectMany(InterfaceBuilder.BuildInterface)
-								.Concat
-								(
-									file.Classes
-										.SelectMany(ClassBuilder.BuildClass)
-								)
-								.Append
-								(
-									DecoratorObject.Create()
-								)
+								file.Classes.SelectMany(InterfaceBuilder.BuildInterface)
+								.Concat(file.Classes.SelectMany(ClassBuilder.BuildClass))
+								.Concat(DecoratorObject.Create())
 							)
 						)
 					)
