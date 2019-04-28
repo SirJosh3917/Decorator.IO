@@ -27,15 +27,12 @@ namespace Decorator.IO.Providers.CSharp
 						(
 							new SyntaxList<MemberDeclarationSyntax>
 							(
-								file
-									.Classes
-									.Select(decoratorClass => new InterfaceBuilder().BuildInterface(decoratorClass))
-									.SelectMany(compilationUnit => compilationUnit.AsMemberDeclarationSyntaxes())
+								file.Classes
+									.SelectMany(InterfaceBuilder.BuildInterface)
 								.Concat
 								(
 									file.Classes
-										.Select(decoratorClass => new ClassBuilder().BuildClass(decoratorClass))
-										.SelectMany(compilationUnit => compilationUnit.AsMemberDeclarationSyntaxes())
+										.SelectMany(ClassBuilder.BuildClass)
 								)
 								.Append
 								(

@@ -7,22 +7,23 @@ using System.Linq;
 
 namespace Decorator.IO.Providers.CSharp
 {
-	public class InterfaceBuilder
+	public static class InterfaceBuilder
 	{
-		public CompilationUnitSyntax BuildInterface(DecoratorClass decoratorClass)
+		public static IEnumerable<MemberDeclarationSyntax> BuildInterface(DecoratorClass decoratorClass)
 		{
 			return $@"public interface I{decoratorClass.Name} {InheritParents(decoratorClass.Parents.Select(x => x.Name))}
 {{
 	{DrawFields(NotInheritedFields(decoratorClass))}
-}}".AsCompilationUnitSyntax();
+}}".AsCompilationUnitSyntax()
+.AsMemberDeclarationSyntaxes();
 		}
 
-		private DecoratorField[] ConcatenateFieldsOfParents(IEnumerable<DecoratorClass> decoratorClasses)
+		private static DecoratorField[] ConcatenateFieldsOfParents(IEnumerable<DecoratorClass> decoratorClasses)
 			=> decoratorClasses.SelectMany(x => x.Fields)
 			.Concat(decoratorClasses.Select(x => x.Parents).SelectMany(ConcatenateFieldsOfParents))
 			.ToArray();
 
-		private DecoratorField[] NotInheritedFields(DecoratorClass decoratorClass)
+		private static DecoratorField[] NotInheritedFields(DecoratorClass decoratorClass)
 		{
 			var all = ConcatenateFieldsOfParents(decoratorClass.Parents)
 				.Select(x => x.Name)
@@ -33,10 +34,10 @@ namespace Decorator.IO.Providers.CSharp
 				.ToArray();
 		}
 
-		private string DrawFields(DecoratorField[] fields)
+		private static string DrawFields(DecoratorField[] fields)
 			=> fields.Length == 0 ? "" : fields.Select(x => $"{x.Type} {x.Name} {{ get; set; }}").Aggregate((a, b) => $"{a}\n{b}");
 
-		private string InheritParents(IEnumerable<string> parents)
+		private static string InheritParents(IEnumerable<string> parents)
 		{
 			if (parents.Any())
 			{
