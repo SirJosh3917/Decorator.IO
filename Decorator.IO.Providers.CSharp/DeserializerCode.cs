@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Decorator.IO.Core;
 
 namespace Decorator.IO.Providers.CSharp
@@ -11,6 +12,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public string Generate(DecoratorClass decoratorClass)
 		{
+
 			var fields = decoratorClass.AllFieldsOf();
 
 			if (fields.Length == 0)
@@ -18,9 +20,13 @@ namespace Decorator.IO.Providers.CSharp
 				return $"return new {decoratorClass.Name}();";
 			}
 
-			return $@"var current = new {decoratorClass.Name}();
+			var desGen = new DeserializerGenerator(_context, decoratorClass, new NameGenerator());
 
-return current;";
+			return $@"{decoratorClass.Name} {Config.ObjectName} = new {decoratorClass.Name}();
+int index = 0;
+{fields.Select(x => desGen.GenerateCode(x, Config.ObjectName, "index"))
+.NewlineAggregate()}
+return {Config.ObjectName};";
 		}
 	}
 }

@@ -7,7 +7,7 @@
 		public const string SerializeName = "Serialize";
 		public const string DeserializeName = "Deserialize";
 		public const string ArrayName = "array";
-		public const string ObjectName = "obj";
+		public const string ObjectName = "@object";
 
 		public static string InterfaceName(string name)
 			=> $"I{name}";
