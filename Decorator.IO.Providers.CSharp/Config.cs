@@ -7,6 +7,9 @@
 		public const string SerializeName = "Serialize";
 		public const string DeserializeName = "Deserialize";
 
+		public static string InterfaceName(string name)
+			=> $"I{name}";
+
 		public static string SerializeAsName(string name)
 			=> $"{SerializeName}As{name}";
 

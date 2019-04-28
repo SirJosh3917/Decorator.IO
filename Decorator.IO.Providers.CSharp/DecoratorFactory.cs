@@ -25,12 +25,12 @@ namespace Decorator.IO.Providers.CSharp
 
 		public static string WriteFunctionCode(DecoratorClass decoratorClass)
 		{
-			return $@"public static I{decoratorClass.Name} {Config.DeserializeAsName(decoratorClass.Name)}(object[] array)
+			return $@"public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeAsName(decoratorClass.Name)}(object[] array)
 {{
 	return default;
 }}
 
-public static object[] {Config.SerializeAsName(decoratorClass.Name)}(I{decoratorClass.Name} obj)
+public static object[] {Config.SerializeAsName(decoratorClass.Name)}({Config.InterfaceName(decoratorClass.Name)} obj)
 {{
 	return default;
 }}

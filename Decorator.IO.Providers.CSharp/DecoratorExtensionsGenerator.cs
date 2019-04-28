@@ -10,12 +10,12 @@ namespace Decorator.IO.Providers.CSharp
 		public static IEnumerable<MemberDeclarationSyntax> Create(IEnumerable<string> decoratorClassNames)
 			=> $@"public static class DecoratorExtensionsGenerator
 {{
-	{decoratorClassNames.Select(x => $@"public static object[] {Config.SerializeAsName(x)}(this I{x} obj)
+	{decoratorClassNames.Select(x => $@"public static object[] {Config.SerializeAsName(x)}(this {Config.InterfaceName(x)} obj)
 {{
 	return {Config.DecoratorFactory}.{Config.SerializeAsName(x)}(obj);
 }}
 
-public static I{x} {Config.DeserializeAsName(x)}(this object[] array)
+public static {Config.InterfaceName(x)} {Config.DeserializeAsName(x)}(this object[] array)
 {{
 	return {Config.DecoratorFactory}.{Config.DeserializeAsName(x)}(array);
 }}")

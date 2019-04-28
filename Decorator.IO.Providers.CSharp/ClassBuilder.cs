@@ -9,7 +9,7 @@ namespace Decorator.IO.Providers.CSharp
 	public static class ClassBuilder
 	{
 		public static IEnumerable<MemberDeclarationSyntax> BuildClass(DecoratorClass decoratorClass)
-			=> $@"public class {decoratorClass.Name} : I{decoratorClass.Name}
+			=> $@"public class {decoratorClass.Name} : {Config.InterfaceName(decoratorClass.Name)}
 {{
 	{decoratorClass.ConcatenateFieldsOfParents().ToPropertyStrings(true)}
 	public object[] {Config.SerializeName}()
@@ -17,7 +17,7 @@ namespace Decorator.IO.Providers.CSharp
 		return this.{Config.SerializeAsName(decoratorClass.Name)}();
 	}}
 
-	public static I{decoratorClass.Name} {Config.DeserializeName}(object[] array)
+	public static {Config.InterfaceName(decoratorClass.Name)} {Config.DeserializeName}(object[] array)
 	{{
 		return {Config.DecoratorFactory}.{Config.DeserializeAsName(decoratorClass.Name)}(array);
 	}}

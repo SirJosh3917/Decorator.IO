@@ -10,7 +10,7 @@ namespace Decorator.IO.Providers.CSharp
 	public static class InterfaceBuilder
 	{
 		public static IEnumerable<MemberDeclarationSyntax> BuildInterface(DecoratorClass decoratorClass)
-			=> $@"public interface I{decoratorClass.Name} {decoratorClass.Parents.Select(x => x.Name).InterfaceInherits()}
+			=> $@"public interface {Config.InterfaceName(decoratorClass.Name)} {decoratorClass.Parents.Select(x => x.Name).InterfaceInherits()}
 {{
 	{decoratorClass.UniqueFields().ToPropertyStrings(false)}
 }}"

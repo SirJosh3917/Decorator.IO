@@ -67,9 +67,9 @@ namespace Decorator.IO.Providers.CSharp
 		{
 			if (parents.Any())
 			{
+				// one of the parents will inherit IDecoratorObject
 				return " : "
-					+ parents.Select(x => $"I{x}")
-					.Append(Config.InterfaceDecoratorObject)
+					+ parents.Select(x => $"{Config.InterfaceName(x)}")
 					.Aggregate((a, b) => $"{a},{b}");
 			}
 
