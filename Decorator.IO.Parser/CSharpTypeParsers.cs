@@ -1,6 +1,9 @@
-﻿using Sprache;
+﻿using Decorator.IO.Core;
+using Sprache;
 
 using System;
+using System.Globalization;
+using System.Reflection;
 
 namespace Decorator.IO.Parser
 {
@@ -34,12 +37,18 @@ namespace Decorator.IO.Parser
 				.Or(Parse.String("B"))
 			select typeof(bool);
 
+		public static readonly Parser<DummyType> Any =
+			from name in CoreParser.Identifier
+			select new DummyType(name);
+
 		public static readonly Parser<Type> CSharpType =
 			from type in CSharpInt
 				.Or(CSharpString)
 				.Or(CSharpUInt)
 				.Or(CSharpFloat)
 				.Or(CSharpBoolean)
+
+				.Or(Any)
 			select type;
 	}
 }

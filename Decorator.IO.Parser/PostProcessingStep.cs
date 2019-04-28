@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Decorator.IO.Core;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -31,14 +32,23 @@ namespace Decorator.IO.Parser
 
 		public Core.DecoratorClass Process(DecoratorClass current)
 		{
+			foreach (var field in current.Fields)
+			{
+				Process(field, _file.Namespace);
+			}
+
 			if (current.Inherits.Length == 0)
 			{
-				return new Core.DecoratorClass
+				var record = new Core.DecoratorClass
 				{
 					Name = current.Name,
 					Fields = current.Fields,
 					Parents = new Core.DecoratorClass[0]
 				};
+
+				_classes[record.Name] = record;
+
+				return record;
 			}
 
 			if (_classes.TryGetValue(current.Name, out var result)
@@ -96,6 +106,15 @@ namespace Decorator.IO.Parser
 			};
 
 			return _classes[current.Name];
+		}
+
+		public void Process(Core.DecoratorField current, string @namespace)
+		{
+			if (current.Type is DummyType dummyType)
+			{
+				dummyType.SetFullName = $"{@namespace}.{dummyType.FullName}";
+				current.Type = dummyType;
+			}
 		}
 
 		private bool BeingProcessed(string name)

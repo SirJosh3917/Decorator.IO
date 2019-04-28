@@ -21,7 +21,14 @@ namespace Decorator.IO.Providers.CSharp
 			.OfType<MemberDeclarationSyntax>();
 
 		public static string NewlineAggregate(this IEnumerable<string> @in)
-			=> @in.Aggregate((a, b) => $"{a}\n{b}");
+		{
+			if (@in.Any())
+			{
+				return @in.Aggregate((a, b) => $"{a}\n{b}");
+			}
+
+			return "";
+		}
 
 		public static string ToPropertyStrings(this IEnumerable<DecoratorField> fields, bool withPublic)
 		{
@@ -30,7 +37,7 @@ namespace Decorator.IO.Providers.CSharp
 				return "";
 			}
 
-			return fields.Select(x => $"{(withPublic ? "public " : "")} {x.Type} {x.Name} {{ get; set; }}")
+			return fields.Select(x => $"{(withPublic ? "public " : "")} {x.Type.FullName} {x.Name} {{ get; set; }}")
 				.NewlineAggregate();
 		}
 
@@ -38,9 +45,7 @@ namespace Decorator.IO.Providers.CSharp
 		// a Func<string, string> parameter to do the casing for us
 		public static void ApplyCSharpCasing(this DecoratorFile @in)
 		{
-			@in.Namespace = @in.Namespace.Split('.')
-				.Select(x => x.Pascalize())
-				.Aggregate((a, b) => $"{a}.{b}");
+			@in.Namespace = @in.Namespace.ApplyCSharpNamespaceCasing();
 
 			foreach (var x in @in.Classes)
 			{
@@ -50,8 +55,18 @@ namespace Decorator.IO.Providers.CSharp
 			foreach (var i in @in.Classes.SelectMany(x => x.Fields))
 			{
 				i.Name = i.Name.Pascalize();
+
+				if (i.Type is DummyType dummyType)
+				{
+					dummyType.SetFullName = dummyType.SetFullName.ApplyCSharpNamespaceCasing();
+				}
 			}
 		}
+
+		public static string ApplyCSharpNamespaceCasing(this string str)
+			=> str.Split('.')
+				.Select(x => x.Pascalize())
+				.Aggregate((a, b) => $"{a}.{b}");
 
 		public static IEnumerable<DecoratorField> UniqueFields(this DecoratorClass decoratorClass)
 		{
