@@ -48,6 +48,7 @@ namespace Decorator.IO.Parser
 			select new DecoratorClass
 			{
 				Name = header.Name,
+				RawName = header.Name,
 				Inherits = header.Inherits,
 				Fields = fields.ToArray()
 			};

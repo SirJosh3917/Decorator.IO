@@ -12,6 +12,8 @@ namespace Decorator.IO.Core
 		/// </summary>
 		public string Name { get; set; }
 
+		public string RawName { get; set; }
+
 		/// <summary>
 		/// The parents.
 		/// </summary>

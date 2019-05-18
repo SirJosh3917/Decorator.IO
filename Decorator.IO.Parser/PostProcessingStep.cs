@@ -43,6 +43,7 @@ namespace Decorator.IO.Parser
 				var record = new Core.DecoratorClass
 				{
 					Name = current.Name,
+					RawName = current.RawName,
 					Fields = current.Fields,
 					Parents = new Core.DecoratorClass[0]
 				};
@@ -102,6 +103,7 @@ namespace Decorator.IO.Parser
 			_classes[current.Name] = new Core.DecoratorClass
 			{
 				Name = current.Name,
+				RawName = current.RawName,
 				Fields = current.Fields,
 				Parents = current.Inherits.Select(x => _classes[x]).ToArray()
 			};

@@ -8,6 +8,10 @@
 		public const string DeserializeName = "Deserialize";
 		public const string ArrayName = "array";
 		public const string ObjectName = "@object";
+		public const string MessageDeserializationEventHandler = "MessageDeserializationEventHandler";
+		public const string MessageDeserializationServer = "MessageDeserializationServer";
+		public const string MessageBaseName = "type";
+		public const string ServerName = "server";
 
 		public static string InterfaceName(string name)
 			=> $"I{name}";

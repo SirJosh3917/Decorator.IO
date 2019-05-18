@@ -10,6 +10,7 @@
 	{
 		public string[] Inherits { get; set; } = new string[0];
 		public string Name { get; set; } = "";
+		public string RawName { get; set; } = "";
 		public Core.DecoratorField[] Fields { get; set; } = new Core.DecoratorField[0];
 	}
 }

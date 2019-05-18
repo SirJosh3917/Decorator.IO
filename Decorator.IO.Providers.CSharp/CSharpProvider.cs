@@ -18,6 +18,7 @@ namespace Decorator.IO.Providers.CSharp
 			file.ApplyCSharpCasing();
 
 			var decoratorFactory = new DecoratorFactory(file);
+			var messageDeserializationSystem = new MessageDeserializationSystem(new NameGenerator());
 
 			var result = SyntaxFactory.CompilationUnit()
 				.WithMembers
@@ -34,6 +35,7 @@ namespace Decorator.IO.Providers.CSharp
 								.Concat(DecoratorExtensionsGenerator.Create(file.Classes.Select(x => x.Name)))
 								.Concat(DecoratorObject.Create())
 								.Concat(decoratorFactory.BuildClass(file.Classes))
+								.Concat(messageDeserializationSystem.Create(file.Classes))
 							)
 						)
 					)
