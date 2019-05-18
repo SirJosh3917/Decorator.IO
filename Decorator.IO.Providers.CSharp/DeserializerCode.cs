@@ -17,7 +17,10 @@ namespace Decorator.IO.Providers.CSharp
 
 			if (fields.Length == 0)
 			{
-				return $"return new {decoratorClass.Name}();";
+				return returnFalse
+					? $@"{Config.ObjectName} = new {decoratorClass.Name}();
+return true;"
+					: $"return new {decoratorClass.Name}();";
 			}
 
 			var desGen = new DeserializerGenerator(_context, decoratorClass, new NameGenerator());
