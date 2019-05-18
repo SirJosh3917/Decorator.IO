@@ -40,6 +40,11 @@ namespace Decorator.IO.Providers.CSharp
 	{deserializerCode.Generate(decoratorClass)}
 }}
 
+public static bool {Config.TryDeserializeAsName(decoratorClass.Name)}(object[] {Config.ArrayName}, out {Config.InterfaceName(decoratorClass.Name)} {Config.ObjectName})
+{{
+	{deserializerCode.Generate(decoratorClass, true)}
+}}
+
 public static object[] {Config.SerializeAsName(decoratorClass.Name)}({Config.InterfaceName(decoratorClass.Name)} {Config.ObjectName})
 {{
 	{serializerCode.Generate(decoratorClass)}

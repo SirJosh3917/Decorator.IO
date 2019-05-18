@@ -28,6 +28,13 @@ namespace Decorator.IO.Providers.CSharp
 			DeserializationTable[Modifier.Optional] = DeserializeOptional;
 		}
 
+		public bool ReturnFalse { get; set; }
+
+		public string Fail(string msg)
+			=> ReturnFalse
+			? $"return false; // {msg}"
+			: @$"throw new System.Exception(""{msg}"");";
+
 		public Dictionary<Modifier, Func<DecoratorField, string, string, string>> DeserializationTable = new Dictionary<Modifier, Func<DecoratorField, string, string, string>>
 		{
 		};
@@ -50,7 +57,7 @@ namespace Decorator.IO.Providers.CSharp
 
 			return $@"if (!({Config.ArrayName}[{indexName}] is {decoratorField.Type} {cast}))
 {{
-	throw new System.Exception(""todo: make try deserialize alternative and abstract the heck outta crud lol"");
+	{Fail("Type of element in object array doesn't match.")}
 }}
 
 {objectName}.{decoratorField.Name} = {cast};

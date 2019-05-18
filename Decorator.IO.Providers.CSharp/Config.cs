@@ -17,5 +17,8 @@
 
 		public static string DeserializeAsName(string name)
 			=> $"{DeserializeName}As{name}";
+
+		public static string TryDeserializeAsName(string name)
+			=> $"Try{DeserializeAsName(name)}";
 	}
 }

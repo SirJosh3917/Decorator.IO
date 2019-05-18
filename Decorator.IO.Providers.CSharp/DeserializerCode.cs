@@ -10,7 +10,7 @@ namespace Decorator.IO.Providers.CSharp
 
 		public DeserializerCode(DecoratorFile context) => _context = context;
 
-		public string Generate(DecoratorClass decoratorClass)
+		public string Generate(DecoratorClass decoratorClass, bool returnFalse = false)
 		{
 
 			var fields = decoratorClass.AllFieldsOf();
@@ -21,20 +21,22 @@ namespace Decorator.IO.Providers.CSharp
 			}
 
 			var desGen = new DeserializerGenerator(_context, decoratorClass, new NameGenerator());
+			desGen.ReturnFalse = returnFalse;
 
-			return $@"{decoratorClass.Name} {Config.ObjectName} = new {decoratorClass.Name}();
+			return $@"{(returnFalse ? "" : decoratorClass.Name + " ")}{Config.ObjectName} = new {decoratorClass.Name}();
 int index = 0;
 {
 				fields.Select(x => desGen.GenerateCode(x, Config.ObjectName, "index"))
 					.Select(x => $@"if (index >= {Config.ArrayName}.Length)
 {{
-	throw new System.Exception(""not a big enough array"");
+	{desGen.Fail("Array is not big enough.")}
 }}
 
 {x}")
 					.NewlineAggregate()
-}
-return {Config.ObjectName};";
+}" + (returnFalse
+? "return true;"
+: $"return {Config.ObjectName};");
 		}
 	}
 }
