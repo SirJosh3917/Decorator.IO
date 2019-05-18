@@ -18,6 +18,11 @@ namespace Decorator.IO.Providers.CSharp
 public static {Config.InterfaceName(x)} {Config.DeserializeAsName(x)}(this object[] {Config.ArrayName})
 {{
 	return {Config.DecoratorFactory}.{Config.DeserializeAsName(x)}({Config.ArrayName});
+}}
+
+public static bool {Config.TryDeserializeAsName(x)}(this object[] {Config.ArrayName}, out {Config.InterfaceName(x)} {Config.ObjectName})
+{{
+	return {Config.DecoratorFactory}.{Config.TryDeserializeAsName(x)}({Config.ArrayName}, out {Config.ObjectName});
 }}")
 				.NewlineAggregate()}
 }}"
