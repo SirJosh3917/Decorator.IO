@@ -36,6 +36,16 @@ namespace Decorator.IO.Parser
 				.Or(Parse.String("B"))
 			select typeof(bool);
 
+		public static readonly Parser<Type> CSharpDouble =
+			from _ in Parse.String("DOUBLE")
+				.Or(Parse.String("DBL"))
+			select typeof(double);
+
+		public static readonly Parser<Type> CSharpDecimal =
+			from _ in Parse.String("DECIMAL")
+				.Or(Parse.String("DEC"))
+			select typeof(decimal);
+
 		public static readonly Parser<DummyType> Any =
 			from name in CoreParser.Identifier
 			select new DummyType(name);
@@ -46,6 +56,8 @@ namespace Decorator.IO.Parser
 				.Or(CSharpUInt)
 				.Or(CSharpFloat)
 				.Or(CSharpBoolean)
+				.Or(CSharpDouble)
+				.Or(CSharpDecimal)
 
 				.Or(Any)
 			select type;
